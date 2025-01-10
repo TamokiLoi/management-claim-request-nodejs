@@ -1,3 +1,4 @@
-import { HttpStatus } from "./http.enum";
+import { BaseFieldName, BaseRoleCode, BaseRoleName } from './base.enum';
+import { HttpStatus } from './http.enum';
 
-export { HttpStatus };
+export { BaseFieldName, BaseRoleCode, BaseRoleName, HttpStatus };
