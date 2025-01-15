@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { BaseDto } from '../../../core/dtos';
 
 export default class CreateUserDto extends BaseDto {
@@ -13,22 +13,28 @@ export default class CreateUserDto extends BaseDto {
     @IsNotEmpty()
     public user_name: string;
 
-    public phone: string;
-    public avatar_url: string;
-    public full_name: string;
-
     @IsNotEmpty()
-    @IsString()
     public role_code: string;
+
+    public is_verified: boolean;
+    public verification_token: string;
+    public verification_token_expires: Date;
+    public token_version: number;
+    public is_blocked: boolean;
 
     constructor(
         email: string,
         password: string,
         user_name: string,
-        phone: string = '',
-        avatar_url: string = '',
-        full_name: string = '',
         role_code: string,
+
+        is_verified: boolean = false,
+        verification_token: string = '',
+        verification_token_expires: Date = new Date(),
+        token_version: number = 0,
+
+        is_blocked: boolean = false,
+
         created_at: Date = new Date(),
         updated_at: Date = new Date(),
         is_deleted: boolean = false,
@@ -37,9 +43,11 @@ export default class CreateUserDto extends BaseDto {
         this.email = email;
         this.password = password;
         this.user_name = user_name;
-        this.phone = phone;
-        this.avatar_url = avatar_url;
-        this.full_name = full_name;
         this.role_code = role_code;
+        this.is_verified = is_verified;
+        this.verification_token = verification_token;
+        this.verification_token_expires = verification_token_expires;
+        this.token_version = token_version;
+        this.is_blocked = is_blocked;
     }
 }

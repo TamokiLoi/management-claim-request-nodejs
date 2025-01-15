@@ -5,16 +5,16 @@ export enum BaseFieldName {
 }
 
 export enum BaseRoleCode {
-    A001 = 'A001',
-    A002 = 'A002',
-    A003 = 'A003',
-    A004 = 'A004',
-    A005 = 'A005',
-    A006 = 'A006',
-    A007 = 'A007',
-    A008 = 'A008',
-    A009 = 'A009',
-    A010 = 'A010',
+    A001 = 'A001', // ADMIN
+    A002 = 'A002', // Finance
+    A003 = 'A003', // BUL
+    A004 = 'A004', // PM
+    A005 = 'A005', // QA
+    A006 = 'A006', // TL
+    A007 = 'A007', // BA
+    A008 = 'A008', // DEV
+    A009 = 'A009', // TEST
+    A010 = 'A010', // TC
 }
 
 export enum BaseRoleName {

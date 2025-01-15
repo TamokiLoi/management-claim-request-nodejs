@@ -7,6 +7,8 @@ import morgan from 'morgan';
 import { IRoute } from './core/interfaces';
 import { errorMiddleware } from './core/middleware';
 import { logger } from './core/utils';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swaggerConfig';
 
 export default class App {
     public app: express.Application;
@@ -20,9 +22,9 @@ export default class App {
 
         this.connectToDatabase();
         this.initializeMiddleware();
+        this.initializeSwagger();
         this.initializeRoute(routes);
         this.initializeErrorMiddleware();
-        // this.initializeSwagger();
     }
 
     public listen() {
@@ -58,6 +60,12 @@ export default class App {
         }
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
+    }
+
+    private initializeSwagger() {
+        this.app.use('/public/css', express.static('public/css'));
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+        logger.info(`Swagger initialized! http://localhost:${this.port}/api-docs`);
     }
 
     // declare error handler middleware

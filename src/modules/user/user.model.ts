@@ -8,10 +8,15 @@ const UserSchemaEntity: Schema<IUser> = new Schema({
     [UserFieldName.EMAIL]: { type: String, unique: true, index: true, required: true },
     [UserFieldName.PASSWORD]: { type: String, required: true },
     [UserFieldName.USER_NAME]: { type: String, required: true },
-    [UserFieldName.PHONE]: { type: String },
-    [UserFieldName.FULL_NAME]: { type: String },
-    [UserFieldName.AVATAR_URL]: { type: String },
     [UserFieldName.ROLE_CODE]: { type: Schema.Types.String, ref: COLLECTION_NAME.ROLE, required: true },
+
+    [UserFieldName.IS_VERIFIED]: { type: Boolean, default: false },
+    [UserFieldName.VERIFICATION_TOKEN]: { type: String },
+    [UserFieldName.VERIFICATION_TOKEN_EXPIRES]: { type: Date },
+    [UserFieldName.TOKEN_VERSION]: { type: Number },
+
+    [UserFieldName.IS_BLOCKED]: { type: Boolean, default: false },
+
     ...BaseModelFields,
 });
 

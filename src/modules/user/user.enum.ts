@@ -7,4 +7,9 @@ export enum UserFieldName {
     FULL_NAME = 'full_name',
     AVATAR_URL = 'avatar_url',
     ROLE_CODE = 'role_code',
+    IS_VERIFIED = 'is_verified',
+    VERIFICATION_TOKEN = 'verification_token',
+    VERIFICATION_TOKEN_EXPIRES = 'verification_token_expires',
+    TOKEN_VERSION = 'token_version',
+    IS_BLOCKED = 'is_blocked',
 }
