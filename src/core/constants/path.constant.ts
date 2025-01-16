@@ -15,6 +15,8 @@ export const API_PATH = {
     USERS: '/api/users',
     SEARCH_USERS: '/api/users/search',
     CHANGE_PASSWORD: '/api/users/change-password',
+    CHANGE_STATUS_USERS: '/api/users/change-status',
+    CHANGE_ROLE_USER: '/api/users/change-role',
 
     // role
     ROLES: '/api/roles',
