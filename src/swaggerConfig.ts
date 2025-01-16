@@ -7,6 +7,13 @@ const options = {
             title: 'Auth API',
             version: '1.0.0',
             description: 'Authentication API documentation',
+            contact: {
+                email: 'loinguyenlamthanh@gmail.com',
+            },
+            license: {
+                name: 'MIT',
+                url: 'https://opensource.org/licenses/MIT',
+            },
         },
         components: {
             securitySchemes: {

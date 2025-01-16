@@ -4,10 +4,11 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
+import path from 'path';
+import swaggerUi from 'swagger-ui-express';
 import { IRoute } from './core/interfaces';
 import { errorMiddleware } from './core/middleware';
 import { logger } from './core/utils';
-import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swaggerConfig';
 
 export default class App {
@@ -63,6 +64,8 @@ export default class App {
     }
 
     private initializeSwagger() {
+        // config for swagger
+        this.app.use('/swagger', express.static(path.join(__dirname, '../node_modules/swagger-ui-dist')));
         this.app.use('/public/css', express.static('public/css'));
         this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
         logger.info(`Swagger initialized! http://localhost:${this.port}/api-docs`);
