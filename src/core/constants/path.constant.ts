@@ -1,4 +1,7 @@
 export const API_PATH = {
+    // swagger api-docs
+    API_DOCS: '/api-docs',
+
     // migrate
     MIGRATE: '/api/migrate',
     MIGRATE_ROLES: '/api/migrate/roles',
