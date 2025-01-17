@@ -27,7 +27,17 @@ module.exports = {
         rules: [
             {
                 test: /\.ts$/,
-                use: ['ts-loader'],
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: false,
+                            compilerOptions: {
+                                removeComments: false,
+                            },
+                        },
+                    },
+                ],
                 exclude: /node_modules/,
             },
         ],
@@ -36,7 +46,7 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin({
             patterns: [
-                { from: 'src/modules', to: 'dist/modules' }, // Copy files module
+                { from: 'src/modules', to: './modules' }, // Copy files module
             ],
         }),
     ],

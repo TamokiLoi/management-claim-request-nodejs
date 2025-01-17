@@ -7,6 +7,7 @@
     "dev": "nodemon src/server.ts",
     "build": "webpack",
     "start": "node -r tsconfig-paths/register dist/server.js",
+    "swagger:dev": "ts-node -r tsconfig-paths/register src/swagger.ts",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix"
   },
@@ -42,6 +43,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/glob": "^8.1.0",
     "@types/hpp": "^0.2.6",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/mongoose": "^5.11.97",
@@ -59,6 +61,7 @@
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
+    "tsconfig-paths-webpack-plugin": "^4.2.0",
     "typescript": "^5.7.2",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1",

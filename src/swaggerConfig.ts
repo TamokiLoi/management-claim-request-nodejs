@@ -1,9 +1,13 @@
+import { glob } from 'glob';
 import swaggerJSDoc from 'swagger-jsdoc';
 
 const apiPaths =
     process.env.NODE_ENV === 'production'
-        ? ['./dist/**/*.js'] // pro
-        : ['./src/modules/**/*.ts']; // dev
+        ? ['./dist/modules/**/*.route.ts']
+        : ['./src/modules/**/*.route.ts'];
+
+const files = apiPaths.flatMap((path) => glob.sync(path));
+// console.log('Swagger files:', files);
 
 const options = {
     definition: {
@@ -49,9 +53,10 @@ const options = {
             },
         ],
     },
-    apis: apiPaths, // Path to the API docs
+    apis: files, // Path to the API docs
 };
 
 const swaggerSpec = swaggerJSDoc(options);
-
+// console.log('process.env.NODE_ENV:', JSON.stringify(process.env.NODE_ENV));
+// console.log('Swagger spec123:', JSON.stringify(swaggerSpec, null, 2));
 export default swaggerSpec;
