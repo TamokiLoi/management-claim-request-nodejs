@@ -7,7 +7,7 @@ const apiPaths =
         : ['./src/modules/**/*.route.ts'];
 
 const files = apiPaths.flatMap((path) => glob.sync(path));
-// console.log('Swagger files:', files);
+console.log('Swagger files:', files);
 
 const options = {
     definition: {
@@ -57,6 +57,6 @@ const options = {
 };
 
 const swaggerSpec = swaggerJSDoc(options);
-// console.log('process.env.NODE_ENV:', JSON.stringify(process.env.NODE_ENV));
+console.log('process.env.NODE_ENV:', JSON.stringify(process.env.NODE_ENV));
 // console.log('Swagger spec123:', JSON.stringify(swaggerSpec, null, 2));
 export default swaggerSpec;
