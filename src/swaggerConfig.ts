@@ -1,16 +1,7 @@
-import { glob } from 'glob';
-import swaggerJSDoc from 'swagger-jsdoc';
 import fs from 'fs';
-import path from 'path';
 import yaml from 'js-yaml';
-
-const apiPaths =
-    process.env.NODE_ENV === 'production'
-        ? ['./dist/modules/**/*.route.ts']
-        : ['./src/modules/**/*.route.ts'];
-
-const files = apiPaths.flatMap((path) => glob.sync(path));
-console.log('Swagger files:', files);
+import path from 'path';
+import swaggerJSDoc from 'swagger-jsdoc';
 
 const options = {
     definition: {
