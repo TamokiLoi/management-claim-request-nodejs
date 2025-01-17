@@ -66,6 +66,7 @@ export default class App {
     private initializeSwagger() {
         // config for swagger        
         this.app.use('/swagger', express.static(path.join(__dirname, '../node_modules/swagger-ui-dist')));
+        this.app.use('/public/css', express.static('public/css'));
         const swaggerPath = path.join(__dirname, '../swagger.yaml');
         const swaggerDocument = YAML.load(swaggerPath);
         swaggerDocument.host = process.env.DOMAIN_API;

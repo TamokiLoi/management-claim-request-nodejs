@@ -1,7 +1,7 @@
-import fs from 'fs';
-import yaml from 'js-yaml';
-import path from 'path';
-import swaggerJSDoc from 'swagger-jsdoc';
+const fs = require('fs');
+const yaml = require('js-yaml');
+const path = require('path');
+const swaggerJSDoc = require('swagger-jsdoc');
 
 const options = {
     definition: {
@@ -51,7 +51,6 @@ const options = {
 };
 
 const swaggerSpec = swaggerJSDoc(options);
-console.log('process.env.NODE_ENV:', JSON.stringify(process.env.NODE_ENV));
 
 // Convert JSON spec to YAML
 const swaggerYaml = yaml.dump(swaggerSpec);
@@ -63,4 +62,4 @@ const outputPath = path.resolve(__dirname, '../swagger.yaml');
 fs.writeFileSync(outputPath, swaggerYaml, 'utf8');
 console.log('Swagger YAML file generated at:', outputPath);
 
-export default swaggerSpec;
+module.exports = swaggerSpec;
