@@ -1,5 +1,10 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 
+const apiPaths =
+    process.env.NODE_ENV === 'production'
+        ? ['./dist/**/*.js'] // pro
+        : ['./src/modules/**/*.ts']; // dev
+
 const options = {
     definition: {
         openapi: '3.0.0',
@@ -44,8 +49,7 @@ const options = {
             },
         ],
     },
-    // apis: ['./src/modules/**/*.route.ts'], // Path to the API docs
-    apis: ['./src/modules/**/*.ts'],
+    apis: apiPaths, // Path to the API docs
 };
 
 const swaggerSpec = swaggerJSDoc(options);

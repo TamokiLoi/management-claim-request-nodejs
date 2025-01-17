@@ -2,6 +2,7 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals'); // Fix bug for express
 const WebpackShellPlugin = require('webpack-shell-plugin'); // Run command after build finish
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin'); // Resolve module in tsconfig.json for webpack
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const { NODE_ENV = 'production' } = process.env;
 module.exports = {
@@ -31,5 +32,12 @@ module.exports = {
             },
         ],
     },
-    context: path.resolve(__dirname)
+    context: path.resolve(__dirname),
+    plugins: [
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'src/modules', to: 'dist/modules' }, // Copy files module
+            ],
+        }),
+    ],
 };

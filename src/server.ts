@@ -1,6 +1,4 @@
-import cors from 'cors';
 import dotenv from 'dotenv';
-import http from 'http';
 import App from './app';
 import { validateEnv } from './core/utils';
 import DocRoute from './modules/api-docs.route';
@@ -25,16 +23,4 @@ const routes = [
 
 const app = new App(routes);
 
-const server = http.createServer(app.app); // Create HTTP server
-
-app.app.use(
-    cors({
-        origin: '*', // Allow all origins for testing purposes
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-    }),
-);
-
-server.listen(app.port, () => {
-    console.log(`Server is running at port ${app.port}`);
-});
+app.listen();
