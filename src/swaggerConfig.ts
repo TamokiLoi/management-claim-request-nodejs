@@ -1,5 +1,8 @@
 import { glob } from 'glob';
 import swaggerJSDoc from 'swagger-jsdoc';
+import fs from 'fs';
+import path from 'path';
+import yaml from 'js-yaml';
 
 const apiPaths =
     process.env.NODE_ENV === 'production'
@@ -53,10 +56,20 @@ const options = {
             },
         ],
     },
-    apis: files, // Path to the API docs
+    apis: ['./src/modules/**/*.ts'], // Path to the API docs
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 console.log('process.env.NODE_ENV:', JSON.stringify(process.env.NODE_ENV));
-// console.log('Swagger spec123:', JSON.stringify(swaggerSpec, null, 2));
+
+// Convert JSON spec to YAML
+const swaggerYaml = yaml.dump(swaggerSpec);
+
+// Define the output path for the YAML file
+const outputPath = path.resolve(__dirname, '../swagger.yaml');
+
+// Write the YAML file to disk
+fs.writeFileSync(outputPath, swaggerYaml, 'utf8');
+console.log('Swagger YAML file generated at:', outputPath);
+
 export default swaggerSpec;

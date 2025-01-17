@@ -1,4 +1,5 @@
-import { IsBoolean, IsDate } from 'class-validator';
+import { IsBoolean, IsDate } from "class-validator";
+
 
 export class BaseDto {
     @IsDate()

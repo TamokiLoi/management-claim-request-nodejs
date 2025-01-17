@@ -1,0 +1,809 @@
+openapi: 3.0.0
+info:
+  title: Auth API
+  version: 1.0.0
+  description: Authentication API documentation
+  contact:
+    email: loinguyenlamthanh@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
+tags:
+  - name: Migrate
+    description: Migrate related endpoints
+  - name: Auth
+    description: Authentication related endpoints
+  - name: User
+    description: User related endpoints
+paths:
+  /api/auth:
+    post:
+      summary: Login with email and password
+      security:
+        - Bearer: []
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: admin@gmail.com
+                password:
+                  type: string
+                  example: 123456
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: >-
+                          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2JjZDk5NWNlMzczNmIwOGRlMWNiNyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxOTU0OTU3MiwiZXhwIjoxNzE5NTc4MzcyfQ.cGdNzkKJ8lw8-7oduG0pU3fyQwEadFS_H6IAer7IFh4
+    get:
+      summary: Get login user information
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: Get login user information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 6786117ca2e8a8cfbf2032bf
+                      email:
+                        type: string
+                        example: admin@gmail.com
+                      user_name:
+                        type: string
+                        example: admin
+                      role_code:
+                        type: string
+                        example: A001
+                      is_verified:
+                        type: boolean
+                        example: true
+                      verification_token:
+                        type: string
+                        example: ''
+                      verification_token_expires:
+                        type: string
+                        example: '2025-01-14T07:25:48.526Z'
+                      token_version:
+                        type: number
+                        example: 0
+                      is_blocked:
+                        type: boolean
+                        example: false
+                      created_at:
+                        type: string
+                        example: '2025-01-14T07:25:48.526Z'
+                      updated_at:
+                        type: string
+                        example: '2025-01-14T07:25:48.526Z'
+                      is_deleted:
+                        type: boolean
+                        example: false
+                      __v:
+                        type: number
+                        example: 0
+  /api/auth/logout:
+    post:
+      summary: Logout User
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: Successful logout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: string
+                    nullable: true
+                    example: null
+  /api/auth/verify-token:
+    post:
+      summary: Verify Token user
+      security:
+        - Bearer: []
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  example: a6b29f364e255de7815d265c8708bb28
+      responses:
+        '200':
+          description: Token verified
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+  /api/auth/resend-token:
+    post:
+      summary: Reset Token via Email
+      security:
+        - Bearer: []
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 123@gmail.com
+      responses:
+        '200':
+          description: Resend Token via Email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+  /api/auth/forgot-password:
+    put:
+      summary: Forgot Password
+      security:
+        - Bearer: []
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 123@gmail.com
+      responses:
+        '200':
+          description: New password send to email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+  /api/migrate/roles:
+    get:
+      summary: Migration Roles default
+      security:
+        - Bearer: []
+      tags:
+        - Migrate
+      responses:
+        '200':
+          description: Migration Roles default
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        role_code:
+                          type: string
+                          example: A001
+                        role_name:
+                          type: string
+                          example: Administrator
+                        description:
+                          type: string
+                          example: System administrator
+                        is_deleted:
+                          type: boolean
+                          example: false
+                        _id:
+                          type: string
+                          example: 67875e33e96a10973576a45b
+                        created_at:
+                          type: string
+                          format: date-time
+                          example: '2025-01-15T07:05:23.657Z'
+                        updated_at:
+                          type: string
+                          format: date-time
+                          example: '2025-01-15T07:05:23.657Z'
+                        __v:
+                          type: integer
+                          example: 0
+  /api/migrate/user-admin:
+    get:
+      summary: Migration User Admin
+      security:
+        - Bearer: []
+      tags:
+        - Migrate
+      responses:
+        '200':
+          description: Migration User Admin
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: admin@gmail.com
+                      user_name:
+                        type: string
+                        example: admin
+                      role_code:
+                        type: string
+                        example: A001
+                      is_verified:
+                        type: boolean
+                        example: true
+                      verification_token:
+                        type: string
+                        example: ''
+                      verification_token_expires:
+                        type: string
+                        format: date-time
+                        example: '2025-01-15T07:09:45.931Z'
+                      token_version:
+                        type: integer
+                        example: 0
+                      is_blocked:
+                        type: boolean
+                        example: false
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2025-01-15T07:09:45.931Z'
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2025-01-15T07:09:45.931Z'
+                      is_deleted:
+                        type: boolean
+                        example: false
+                      _id:
+                        type: string
+                        example: 67875f3a3baa4962e6b0f4ea
+                      __v:
+                        type: integer
+                        example: 0
+  /api/users:
+    post:
+      summary: Create user
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: ''
+                password:
+                  type: string
+                  example: ''
+                user_name:
+                  type: string
+                  example: ''
+                role_code:
+                  type: string
+                  example: ''
+      responses:
+        '200':
+          description: User data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 6786117ca2e8a8cfbf2032bf
+                      email:
+                        type: string
+                        example: admin@gmail.com
+                      user_name:
+                        type: string
+                        example: admin
+                      role_code:
+                        type: string
+                        example: A001
+                      is_verified:
+                        type: boolean
+                        example: true
+                      verification_token:
+                        type: string
+                        example: ''
+                      verification_token_expires:
+                        type: string
+                        format: date-time
+                        example: '2025-01-14T07:25:48.526Z'
+                      token_version:
+                        type: number
+                        example: 1
+                      is_blocked:
+                        type: boolean
+                        example: false
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2025-01-14T07:25:48.526Z'
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2025-01-14T07:25:48.526Z'
+                      is_deleted:
+                        type: boolean
+                        example: false
+                      __v:
+                        type: number
+                        example: 0
+  /api/users/search:
+    post:
+      summary: Get all users with search condition and pagination
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchCondition:
+                  type: object
+                  properties:
+                    keyword:
+                      type: string
+                      example: ''
+                    role_code:
+                      type: string
+                      example: ''
+                    is_blocked:
+                      type: boolean
+                      example: false
+                    is_delete:
+                      type: boolean
+                      example: false
+                    is_verified:
+                      oneOf:
+                        - type: string
+                          example: ''
+                        - type: boolean
+                          example: true
+                pageInfo:
+                  type: object
+                  properties:
+                    pageNum:
+                      type: number
+                      example: 1
+                    pageSize:
+                      type: number
+                      example: 10
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      pageData:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _id:
+                              type: string
+                              example: 67876c01704869dc70dd01d0
+                            email:
+                              type: string
+                              example: 123@gmail.com
+                            user_name:
+                              type: string
+                              example: name
+                            role_code:
+                              type: string
+                              example: A001
+                            is_verified:
+                              type: boolean
+                              example: true
+                            is_blocked:
+                              type: boolean
+                              example: false
+                            is_deleted:
+                              type: boolean
+                              example: false
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: '2025-01-15T08:04:17.630Z'
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: '2025-01-15T08:33:02.446Z'
+                            __v:
+                              type: number
+                              example: 0
+                            token_version:
+                              type: number
+                              example: 1
+                      pageInfo:
+                        type: object
+                        properties:
+                          pageNum:
+                            type: number
+                            example: 1
+                          pageSize:
+                            type: number
+                            example: 10
+                          totalItems:
+                            type: number
+                            example: 2
+                          totalPages:
+                            type: number
+                            example: 1
+  /api/users/{id}:
+    get:
+      summary: Get user by ID
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The user ID
+      responses:
+        '200':
+          description: User data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 6786117ca2e8a8cfbf2032bf
+                      email:
+                        type: string
+                        example: admin@gmail.com
+                      user_name:
+                        type: string
+                        example: admin
+                      role_code:
+                        type: string
+                        example: A001
+                      is_verified:
+                        type: boolean
+                        example: true
+                      verification_token:
+                        type: string
+                        example: ''
+                      verification_token_expires:
+                        type: string
+                        format: date-time
+                        example: '2025-01-14T07:25:48.526Z'
+                      token_version:
+                        type: number
+                        example: 1
+                      is_blocked:
+                        type: boolean
+                        example: false
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2025-01-14T07:25:48.526Z'
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2025-01-14T07:25:48.526Z'
+                      is_deleted:
+                        type: boolean
+                        example: false
+                      __v:
+                        type: number
+                        example: 0
+    put:
+      summary: Update user
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The user ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: ''
+                user_name:
+                  type: string
+                  example: ''
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 6786117ca2e8a8cfbf2032bf
+                      email:
+                        type: string
+                        example: admin@gmail.com
+                      user_name:
+                        type: string
+                        example: admin
+                      role_code:
+                        type: string
+                        example: A001
+                      is_verified:
+                        type: boolean
+                        example: true
+                      verification_token:
+                        type: string
+                        example: ''
+                      verification_token_expires:
+                        type: string
+                        format: date-time
+                        example: '2025-01-14T07:25:48.526Z'
+                      token_version:
+                        type: number
+                        example: 1
+                      is_blocked:
+                        type: boolean
+                        example: false
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2025-01-14T07:25:48.526Z'
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2025-01-14T07:25:48.526Z'
+                      is_deleted:
+                        type: boolean
+                        example: false
+                      __v:
+                        type: number
+                        example: 0
+    delete:
+      summary: Delete user
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The user ID
+      responses:
+        '200':
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    nullable: true
+  /api/users/change-password:
+    put:
+      summary: Change user password
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                old_password:
+                  type: string
+                  example: ''
+                new_password:
+                  type: string
+                  example: ''
+      responses:
+        '200':
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    nullable: true
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+  /api/users/change-status:
+    put:
+      summary: Change user status
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: ''
+                is_blocked:
+                  type: boolean
+                  example: true
+      responses:
+        '200':
+          description: User status changed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    nullable: true
+  /api/users/change-role:
+    put:
+      summary: Change user role
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: ''
+                role_code:
+                  type: string
+                  example: A001
+      responses:
+        '200':
+          description: User role changed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    nullable: true

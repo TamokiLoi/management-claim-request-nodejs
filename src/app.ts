@@ -6,10 +6,10 @@ import mongoose from 'mongoose';
 import morgan from 'morgan';
 import path from 'path';
 import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 import { IRoute } from './core/interfaces';
 import { errorMiddleware } from './core/middleware';
 import { logger } from './core/utils';
-import swaggerSpec from './swaggerConfig';
 
 export default class App {
     public app: express.Application;
@@ -64,11 +64,20 @@ export default class App {
     }
 
     private initializeSwagger() {
-        // config for swagger
+        // config for swagger        
         this.app.use('/swagger', express.static(path.join(__dirname, '../node_modules/swagger-ui-dist')));
-        this.app.use('/public/css', express.static('public/css'));
-        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-        logger.info(`Swagger initialized! http://localhost:${this.port}/api-docs`);
+        const swaggerPath = path.join(__dirname, '../swagger.yaml');
+        const swaggerDocument = YAML.load(swaggerPath);
+        swaggerDocument.host = process.env.DOMAIN_API;
+        this.app.use(
+            '/api-docs',
+            swaggerUi.serve,
+            swaggerUi.setup(swaggerDocument, {
+                swaggerOptions: {
+                    url: '/swagger/swagger.yaml',
+                },
+            }),
+        );
     }
 
     // declare error handler middleware
