@@ -1,4 +1,4 @@
-import { BaseFieldName, BaseRoleCode, BaseRoleName } from './base.enum';
+import { BaseContractType, BaseFieldName, BaseJobRank, BaseRoleCode, BaseJobName } from './base.enum';
 import { HttpStatus } from './http.enum';
 
-export { BaseFieldName, BaseRoleCode, BaseRoleName, HttpStatus };
+export { BaseContractType, BaseFieldName, BaseJobRank, BaseRoleCode, BaseJobName, HttpStatus };

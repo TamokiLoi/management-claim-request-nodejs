@@ -10,7 +10,7 @@
         }
     },
     "scripts": {
-        "dev": "nodemon src/server.ts",
+        "dev": "yarn generate:swagger && nodemon src/server.ts",
         "build": "webpack && yarn generate:swagger",
         "start": "node -r tsconfig-paths/register dist/server.js",
         "generate:swagger": "node src/swaggerConfig.ts",

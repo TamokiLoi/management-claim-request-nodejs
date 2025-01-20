@@ -44,6 +44,9 @@ export default class MigrateRoute implements IRoute {
          *                   items:
          *                     type: object
          *                     properties:
+         *                       _id:
+         *                         type: string
+         *                         example: 67875e33e96a10973576a45b
          *                       role_code:
          *                         type: string
          *                         example: A001
@@ -56,9 +59,6 @@ export default class MigrateRoute implements IRoute {
          *                       is_deleted:
          *                         type: boolean
          *                         example: false
-         *                       _id:
-         *                         type: string
-         *                         example: 67875e33e96a10973576a45b
          *                       created_at:
          *                         type: string
          *                         format: date-time
@@ -73,6 +73,57 @@ export default class MigrateRoute implements IRoute {
          */
         // GET domain:/api/migrate/roles -> Migrate Roles default
         this.router.get(API_PATH.MIGRATE_ROLES, this.migrateController.migrateRoles);
+
+        /**
+         * @swagger
+         * /api/migrate/jobs:
+         *   get:
+         *     summary: Fetch migration jobs
+         *     security:
+         *       - Bearer: []
+         *     tags: [Migrate]
+         *     responses:
+         *       200:
+         *         description: List of migration jobs
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 success:
+         *                   type: boolean
+         *                   example: true
+         *                 data:
+         *                   type: array
+         *                   items:
+         *                     type: object
+         *                     properties:
+         *                       _id:
+         *                         type: string
+         *                         example: 678e034ea76e35135ab72660
+         *                       job_rank:
+         *                         type: string
+         *                         example: Admin
+         *                       job_title:
+         *                         type: string
+         *                         example: Administrator
+         *                       is_deleted:
+         *                         type: boolean
+         *                         example: false
+         *                       created_at:
+         *                         type: string
+         *                         format: date-time
+         *                         example: 2025-01-20T08:03:26.169Z
+         *                       updated_at:
+         *                         type: string
+         *                         format: date-time
+         *                         example: 2025-01-20T08:03:26.169Z
+         *                       __v:
+         *                         type: integer
+         *                         example: 0
+         */
+        // GET domain:/api/migrate/jobs -> Migrate Jobs default
+        this.router.get(API_PATH.MIGRATE_JOBS, this.migrateController.migrateJobs);
 
         /**
          * @swagger
@@ -96,6 +147,9 @@ export default class MigrateRoute implements IRoute {
          *                 data:
          *                   type: object
          *                   properties:
+         *                     _id:
+         *                       type: string
+         *                       example: 67875f3a3baa4962e6b0f4ea
          *                     email:
          *                       type: string
          *                       example: admin@gmail.com
@@ -132,9 +186,6 @@ export default class MigrateRoute implements IRoute {
          *                     is_deleted:
          *                       type: boolean
          *                       example: false
-         *                     _id:
-         *                       type: string
-         *                       example: 67875f3a3baa4962e6b0f4ea
          *                     __v:
          *                       type: integer
          *                       example: 0

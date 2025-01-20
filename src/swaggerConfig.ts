@@ -42,6 +42,14 @@ const options = {
                 description: 'Authentication related endpoints',
             },
             {
+                name: 'Role',
+                description: 'Role related endpoints',
+            },
+            {
+                name: 'Job',
+                description: 'Job related endpoints',
+            },
+            {
                 name: 'User',
                 description: 'User related endpoints',
             },

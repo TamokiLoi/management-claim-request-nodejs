@@ -1,38 +1,28 @@
 import { NextFunction, Request, Response } from 'express';
-import { BaseRoleCode, BaseRoleName, HttpStatus } from '../../core/enums';
+import { HttpStatus } from '../../core/enums';
 import { formatResponse } from '../../core/utils';
-import { RoleSchema } from '../role';
-import { CreateUserDto, IUser, UserService } from '../user';
+import { JobFieldName, JobSchema } from '../job';
+import { RoleFieldName, RoleSchema } from '../role';
+import { IUser, UserService } from '../user';
+import { DEFAULT_ADMIN, DEFAULT_JOBS, DEFAULT_ROLES } from './migrate.constant';
 
 export default class MigrateController {
     private userService = new UserService();
     private roleSchema = RoleSchema;
+    private jobSchema = JobSchema;
 
     public migrateRoles = async (req: Request, res: Response, next: NextFunction) => {
-        const defaultRoles = [
-            { role_code: BaseRoleCode.A001, role_name: BaseRoleName.ADMIN, description: 'System administrator' },
-            { role_code: BaseRoleCode.A002, role_name: BaseRoleName.FINANCE, description: 'System finance' },
-            { role_code: BaseRoleCode.A003, role_name: BaseRoleName.BUL, description: 'Business Unit Lead' },
-            { role_code: BaseRoleCode.A004, role_name: BaseRoleName.PM, description: 'Project Management' },
-            { role_code: BaseRoleCode.A005, role_name: BaseRoleName.QA, description: 'Quality Analytics' },
-            { role_code: BaseRoleCode.A006, role_name: BaseRoleName.TL, description: 'Technical Lead' },
-            { role_code: BaseRoleCode.A007, role_name: BaseRoleName.BA, description: 'Business Analytics' },
-            { role_code: BaseRoleCode.A008, role_name: BaseRoleName.DEV, description: 'Developer' },
-            { role_code: BaseRoleCode.A009, role_name: BaseRoleName.TEST, description: 'Tester' },
-            { role_code: BaseRoleCode.A010, role_name: BaseRoleName.TC, description: 'Technical Consultancy' },
-        ];
-
         try {
-            const createdRoles = [];
-            for (const role of defaultRoles) {
-                const exists = await this.roleSchema.findOne({ role_code: role.role_code });
+            const createdItems = [];
+            for (const item of DEFAULT_ROLES) {
+                const exists = await this.roleSchema.findOne({ role_code: item[RoleFieldName.ROLE_CODE] });
                 if (!exists) {
-                    const newRole = await RoleSchema.create(role);
-                    createdRoles.push(newRole);
+                    const newItem = await this.roleSchema.create(item);
+                    createdItems.push(newItem);
                 }
             }
-            if (createdRoles.length > 0) {
-                res.status(HttpStatus.Created).json(formatResponse<any>(createdRoles));
+            if (createdItems.length > 0) {
+                res.status(HttpStatus.Created).json(formatResponse<any>(createdItems));
             } else {
                 res.status(HttpStatus.Success).json({
                     message: 'All default roles already exist.',
@@ -43,23 +33,31 @@ export default class MigrateController {
         }
     };
 
+    public migrateJobs = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const createItems = [];
+            for (const item of DEFAULT_JOBS) {
+                const exists = await this.jobSchema.findOne({ job_rank: item[JobFieldName.JOB_RANK] });
+                if (!exists) {
+                    const newItem = await this.jobSchema.create(item);
+                    createItems.push(newItem);
+                }
+            }
+            if (createItems.length > 0) {
+                res.status(HttpStatus.Created).json(formatResponse<any>(createItems));
+            } else {
+                res.status(HttpStatus.Success).json({
+                    message: 'All default jobs already exist.',
+                });
+            }
+        } catch (error) {
+            next(error);
+        }
+    };
+
     public migrateUserAdmin = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const model = new CreateUserDto(
-                'admin@gmail.com',
-                '123456',
-                'admin',
-                BaseRoleCode.A001,
-                true,
-                undefined,
-                undefined,
-                0,
-                false,
-                new Date(),
-                new Date(),
-                false,
-            );
-            const user: IUser = await this.userService.createUser(model);
+            const user: IUser = await this.userService.createUser(DEFAULT_ADMIN);
             res.status(HttpStatus.Created).json(formatResponse<IUser>(user));
         } catch (error) {
             next(error);

@@ -1,0 +1,17 @@
+export enum EmployeeFieldName {
+    ID = '_id',
+    USER_ID = 'user_id',
+    ACCOUNT = 'account',
+    ADDRESS = 'address',
+    PHONE = 'phone',
+    FULL_NAME = 'full_name',
+    AVATAR_URL = 'avatar_url',
+    DEPARTMENT_NAME = 'department_name',
+    JOB_RANK = 'job_rank',
+    JOB_TITLE = 'job_title',
+    SALARY = 'salary',
+    CONTRACT_TYPE = 'contract_type',
+    START_DATE = 'start_date',
+    END_DATE = 'end_date',
+    UPDATED_BY = 'updated_by',
+}

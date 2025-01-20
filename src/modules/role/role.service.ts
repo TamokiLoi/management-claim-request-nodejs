@@ -43,6 +43,28 @@ export default class RoleService {
         return createdItem;
     }
 
+    public async getAllItems(keyword: string): Promise<IRole[]> {
+        let query = {};
+        if (keyword) {
+            const keywordValue = keyword.toLowerCase().trim();
+            query = {
+                $or: [
+                    { role_code: { $regex: keywordValue, $options: 'i' } },
+                    { role_name: { $regex: keywordValue, $options: 'i' } },
+                ],
+            };
+        }
+
+        query = {
+            ...query,
+            is_deleted: false,
+        };
+
+        const result = await this.roleSchema.find(query).exec();
+
+        return result || [];
+    }
+
     public async getItems(model: SearchWithPaginationDto): Promise<SearchPaginationResponseModel<IRole>> {
         const searchCondition = { ...new SearchRoleDto(), ...model.searchCondition };
         const { role_code, role_name, is_deleted } = searchCondition;

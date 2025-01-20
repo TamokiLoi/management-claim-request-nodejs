@@ -21,6 +21,10 @@ tags:
     description: Migrate related endpoints
   - name: Auth
     description: Authentication related endpoints
+  - name: Role
+    description: Role related endpoints
+  - name: Job
+    description: Job related endpoints
   - name: User
     description: User related endpoints
 paths:
@@ -235,6 +239,56 @@ paths:
                     type: object
                     nullable: true
                     example: null
+  /api/jobs/get-all:
+    get:
+      summary: Get all jobs or by keyword
+      tags:
+        - Job
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+          description: The keyword related with job_rank and job_title
+      responses:
+        '200':
+          description: List of jobs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: 678e035aa76e35135ab726ab
+                        job_rank:
+                          type: string
+                          example: TC3
+                        job_title:
+                          type: string
+                          example: Technical Consultant
+                        is_deleted:
+                          type: boolean
+                          example: false
+                        created_at:
+                          type: string
+                          format: date-time
+                          example: '2025-01-20T08:03:38.677Z'
+                        updated_at:
+                          type: string
+                          format: date-time
+                          example: '2025-01-20T08:03:38.677Z'
+                        __v:
+                          type: integer
+                          example: 0
   /api/migrate/roles:
     get:
       summary: Migration Roles default
@@ -258,6 +312,9 @@ paths:
                     items:
                       type: object
                       properties:
+                        _id:
+                          type: string
+                          example: 67875e33e96a10973576a45b
                         role_code:
                           type: string
                           example: A001
@@ -270,9 +327,6 @@ paths:
                         is_deleted:
                           type: boolean
                           example: false
-                        _id:
-                          type: string
-                          example: 67875e33e96a10973576a45b
                         created_at:
                           type: string
                           format: date-time
@@ -281,6 +335,52 @@ paths:
                           type: string
                           format: date-time
                           example: '2025-01-15T07:05:23.657Z'
+                        __v:
+                          type: integer
+                          example: 0
+  /api/migrate/jobs:
+    get:
+      summary: Fetch migration jobs
+      security:
+        - Bearer: []
+      tags:
+        - Migrate
+      responses:
+        '200':
+          description: List of migration jobs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: 678e034ea76e35135ab72660
+                        job_rank:
+                          type: string
+                          example: Admin
+                        job_title:
+                          type: string
+                          example: Administrator
+                        is_deleted:
+                          type: boolean
+                          example: false
+                        created_at:
+                          type: string
+                          format: date-time
+                          example: '2025-01-20T08:03:26.169Z'
+                        updated_at:
+                          type: string
+                          format: date-time
+                          example: '2025-01-20T08:03:26.169Z'
                         __v:
                           type: integer
                           example: 0
@@ -305,6 +405,9 @@ paths:
                   data:
                     type: object
                     properties:
+                      _id:
+                        type: string
+                        example: 67875f3a3baa4962e6b0f4ea
                       email:
                         type: string
                         example: admin@gmail.com
@@ -341,12 +444,62 @@ paths:
                       is_deleted:
                         type: boolean
                         example: false
-                      _id:
-                        type: string
-                        example: 67875f3a3baa4962e6b0f4ea
                       __v:
                         type: integer
                         example: 0
+  /api/roles/get-all:
+    get:
+      summary: Get all roles or by keyword
+      tags:
+        - Role
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+          description: The keyword related with role_code and role_name
+      responses:
+        '200':
+          description: List of roles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: 678e16f34e6e72ce391d08ec
+                        role_code:
+                          type: string
+                          example: A001
+                        role_name:
+                          type: string
+                          example: Administrator
+                        description:
+                          type: string
+                          example: System administrator
+                        is_deleted:
+                          type: boolean
+                          example: false
+                        created_at:
+                          type: string
+                          format: date-time
+                          example: '2025-01-20T09:27:15.917Z'
+                        updated_at:
+                          type: string
+                          format: date-time
+                          example: '2025-01-20T09:27:15.917Z'
+                        __v:
+                          type: number
+                          example: 0
   /api/users:
     post:
       summary: Create user

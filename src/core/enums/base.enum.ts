@@ -7,17 +7,40 @@ export enum BaseFieldName {
 export enum BaseRoleCode {
     A001 = 'A001', // ADMIN
     A002 = 'A002', // Finance
-    A003 = 'A003', // BUL
-    A004 = 'A004', // PM
-    A005 = 'A005', // QA
-    A006 = 'A006', // TL
-    A007 = 'A007', // BA
-    A008 = 'A008', // DEV
-    A009 = 'A009', // TEST
-    A010 = 'A010', // TC
+    A003 = 'A003', // BUL, PM
+    A004 = 'A004', // All members remaining
 }
 
-export enum BaseRoleName {
+export enum BaseJobRank {
+    ADMIN = 'Admin',
+    FI1 = 'FI1',
+    FI2 = 'FI2',
+    FI3 = 'FI3',
+    BUL = 'BUL',
+    PM1 = 'PM1',
+    PM2 = 'PM2',
+    PM3 = 'PM3',
+    TL1 = 'TL1',
+    TL2 = 'TL2',
+    TL3 = 'TL3',
+    BA1 = 'BA1',
+    BA2 = 'BA2',
+    BA3 = 'BA3',
+    QA1 = 'QA1',
+    QA2 = 'QA2',
+    QA3 = 'QA3',
+    DEV1 = 'DEV1',
+    DEV2 = 'DEV2',
+    DEV3 = 'DEV3',
+    TEST1 = 'TEST1',
+    TEST2 = 'TEST2',
+    TEST3 = 'TEST3',
+    TC1 = 'TC1',
+    TC2 = 'TC2',
+    TC3 = 'TC3',
+}
+
+export enum BaseJobName {
     ADMIN = 'Administrator',
     FINANCE = 'Finance',
     BUL = 'Business Unit Leader',
@@ -28,4 +51,10 @@ export enum BaseRoleName {
     DEV = 'Developer',
     TEST = 'Tester',
     TC = 'Technical Consultant',
+}
+
+export enum BaseContractType {
+    ONE_YEAR = 'one_year',
+    THREE_YEAR = 'three_year',
+    INDEFINITE = 'indefinite',
 }

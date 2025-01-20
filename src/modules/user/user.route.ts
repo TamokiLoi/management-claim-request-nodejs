@@ -231,7 +231,7 @@ export default class UserRoute implements IRoute {
          *                           type: number
          *                           example: 1
          */
-        // POST domain:/api/users/search -> Get all users
+        // POST domain:/api/users/search -> Get items by conditions
         this.router.post(
             API_PATH.SEARCH_USERS,
             authMiddleWare([BaseRoleCode.A001]),

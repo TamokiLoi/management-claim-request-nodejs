@@ -21,6 +21,15 @@ export default class RoleController {
         }
     };
 
+    public getAllItems = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const result: IRole[] = await this.roleService.getAllItems(req.params.keyword);
+            res.status(HttpStatus.Success).json(formatResponse<IRole[]>(result));
+        } catch (error) {
+            next(error);
+        }
+    };
+
     public getItems = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const model: SearchWithPaginationDto = req.body;
