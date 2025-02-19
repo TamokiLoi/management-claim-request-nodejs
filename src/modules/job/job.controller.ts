@@ -9,7 +9,8 @@ export default class JobController {
 
     public getAllItems = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const result: IJob[] = await this.jobService.getAllItems(req.params.keyword);
+            const { keyword } = req.query;
+            const result: IJob[] = await this.jobService.getAllItems(keyword as string);
             res.status(HttpStatus.Success).json(formatResponse<IJob[]>(result));
         } catch (error) {
             next(error);

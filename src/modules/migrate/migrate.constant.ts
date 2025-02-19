@@ -1,4 +1,5 @@
-import { BaseJobRank, BaseRoleCode, BaseJobName } from '../../core/enums';
+import { BaseContractType, BaseJobName, BaseJobRank, BaseRoleCode } from '../../core/enums';
+import { ContractFieldName } from '../contract';
 import { JobFieldName } from '../job';
 import { RoleFieldName } from '../role';
 import { CreateUserDto } from '../user';
@@ -16,12 +17,12 @@ export const DEFAULT_ROLES = [
     },
     {
         [RoleFieldName.ROLE_CODE]: BaseRoleCode.A003,
-        [RoleFieldName.ROLE_NAME]: 'BUL, PM',
+        [RoleFieldName.ROLE_NAME]: 'Approval',
         [RoleFieldName.DESCRIPTION]: 'BUL, PM',
     },
     {
         [RoleFieldName.ROLE_CODE]: BaseRoleCode.A004,
-        [RoleFieldName.ROLE_NAME]: 'All Members Remaining',
+        [RoleFieldName.ROLE_NAME]: 'Claimer',
         [RoleFieldName.DESCRIPTION]: 'All Members Remaining',
     },
 ];
@@ -69,3 +70,9 @@ export const DEFAULT_ADMIN = new CreateUserDto(
     new Date(),
     false,
 );
+
+export const DEFAULT_CONTRACTS = [
+    { [ContractFieldName.CONTRACT_TYPE]: BaseContractType.ONE_YEAR, [ContractFieldName.DESCRIPTION]: 'Contract limit in one year.' },
+    { [ContractFieldName.CONTRACT_TYPE]: BaseContractType.THREE_YEAR, [ContractFieldName.DESCRIPTION]: 'Contract limit in three year.' },
+    { [ContractFieldName.CONTRACT_TYPE]: BaseContractType.INDEFINITE, [ContractFieldName.DESCRIPTION]: 'Contract no limit time.' },
+];

@@ -7,7 +7,6 @@ import { IJob } from './job.interface';
 const JobSchemaEntity: Schema<IJob> = new Schema({
     [JobFieldName.JOB_RANK]: { type: String, unique: true, index: true, required: true },
     [JobFieldName.JOB_TITLE]: { type: String, required: true },
-
     ...BaseModelFields,
 });
 

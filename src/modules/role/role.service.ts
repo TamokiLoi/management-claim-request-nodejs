@@ -1,28 +1,31 @@
 import { HttpStatus } from '../../core/enums';
 import { HttpException } from '../../core/exceptions';
 import { IError } from '../../core/interfaces';
-import { SearchPaginationResponseModel } from '../../core/models';
-import { checkFieldsExists, isEmptyObject } from '../../core/utils';
+import { normalizeParam, SearchPaginationResponseModel } from '../../core/models';
+import { checkEmptyObject } from '../../core/utils';
 import CreateRoleDto from './dtos/createRole.dto';
 import SearchRoleDto from './dtos/search.dto';
 import SearchWithPaginationDto from './dtos/searchWithPagination.dto';
 import UpdateRoleDto from './dtos/updateRole.dto';
 import { IRole } from './role.interface';
 import RoleSchema from './role.model';
+import { RoleRepository } from './role.repository';
 
 export default class RoleService {
     public roleSchema = RoleSchema;
+    private roleRepository: RoleRepository;
+
+    constructor() {
+        this.roleRepository = new RoleRepository();
+    }
 
     public async create(model: CreateRoleDto): Promise<IRole> {
-        if (isEmptyObject(model)) {
-            throw new HttpException(HttpStatus.BadRequest, 'Model data is empty');
-        }
+        await checkEmptyObject(model);
 
         let errorResults: IError[] = [];
 
         // check role_code, role_name valid
-        errorResults = await checkFieldsExists(
-            this.roleSchema,
+        errorResults = await this.roleRepository.checkFieldsExists(
             [
                 { fieldName: 'role_code', fieldValue: model.role_code },
                 { fieldName: 'role_name', fieldValue: model.role_name },
@@ -45,8 +48,8 @@ export default class RoleService {
 
     public async getAllItems(keyword: string): Promise<IRole[]> {
         let query = {};
-        if (keyword) {
-            const keywordValue = keyword.toLowerCase().trim();
+        const keywordValue = normalizeParam(keyword)?.trim();
+        if (keywordValue) {
             query = {
                 $or: [
                     { role_code: { $regex: keywordValue, $options: 'i' } },
@@ -117,9 +120,7 @@ export default class RoleService {
     }
 
     public async updateItem(id: string, model: UpdateRoleDto): Promise<IRole> {
-        if (isEmptyObject(model)) {
-            throw new HttpException(HttpStatus.BadRequest, 'Model data is empty');
-        }
+        await checkEmptyObject(model);
 
         const updateData = {
             role_name: model.role_name,
@@ -148,5 +149,13 @@ export default class RoleService {
         }
 
         return true;
+    }
+
+    public async getItemByRoleCode(role_code: string): Promise<IRole> {
+        const item = await this.roleSchema.findOne({ role_code, is_deleted: false }).lean();
+        if (!item) {
+            throw new HttpException(HttpStatus.BadRequest, `Role is not exists.`);
+        }
+        return item;
     }
 }

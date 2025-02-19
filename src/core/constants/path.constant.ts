@@ -7,6 +7,7 @@ export const API_PATH = {
     MIGRATE_ROLES: '/api/migrate/roles',
     MIGRATE_JOBS: '/api/migrate/jobs',
     MIGRATE_USER_ADMIN: '/api/migrate/user-admin',
+    MIGRATE_CONTRACTS: '/api/migrate/contracts',
 
     // auth
     AUTH: '/api/auth',
@@ -24,10 +25,22 @@ export const API_PATH = {
     JOBS: '/api/jobs',
     GET_ALL_JOBS: '/api/jobs/get-all',
 
+    // contract
+    CONTRACTS: '/api/contracts',
+    GET_ALL_CONTRACTS: '/api/contracts/get-all',
+
     // user
     USERS: '/api/users',
     SEARCH_USERS: '/api/users/search',
     CHANGE_PASSWORD: '/api/users/change-password',
     CHANGE_STATUS_USERS: '/api/users/change-status',
     CHANGE_ROLE_USER: '/api/users/change-role',
+
+    // employees
+    EMPLOYEES: '/api/employees',
+
+    // projects
+    PROJECTS: '/api/projects',
+    PROJECTS_SEARCH: '/api/projects/search',
+    PROJECTS_CHANGE_STATUS: '/api/projects/change-status',
 };

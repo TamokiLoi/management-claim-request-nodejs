@@ -54,7 +54,7 @@ export enum BaseJobName {
 }
 
 export enum BaseContractType {
-    ONE_YEAR = 'one_year',
-    THREE_YEAR = 'three_year',
-    INDEFINITE = 'indefinite',
+    ONE_YEAR = 'ONE YEAR',
+    THREE_YEAR = 'THREE YEAR',
+    INDEFINITE = 'INDEFINITE',
 }

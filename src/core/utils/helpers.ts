@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import crypto from 'crypto';
 
-export const isEmptyObject = (obj: any): boolean => {
+export const isEmptyObject = <T extends object>(obj: T): boolean => {
     return !Object.keys(obj).length;
 };
 

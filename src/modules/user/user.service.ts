@@ -3,14 +3,15 @@ import { HttpStatus } from '../../core/enums';
 import { HttpException } from '../../core/exceptions';
 import { SearchPaginationResponseModel } from '../../core/models';
 import {
+    checkEmptyObject,
     createTokenVerifiedUser,
     encodePassword,
     encodePasswordUserNormal,
-    isEmptyObject,
     sendMail,
 } from '../../core/utils';
 import { DataStoredInToken } from '../auth';
-import { RoleSchema } from '../role';
+import { CreateEmployeeDto, EmployeeSchema } from '../employee';
+import { RoleService } from '../role';
 import ChangePasswordDto from './dtos/changePassword.dto';
 import ChangeRoleDto from './dtos/changeRole.dto';
 import ChangeStatusDto from './dtos/changeStatus.dto';
@@ -23,14 +24,17 @@ import UserSchema from './user.model';
 
 export default class UserService {
     public userSchema = UserSchema;
-    private roleSchema = RoleSchema;
+    public employeeSchema = EmployeeSchema;
+    private roleService = new RoleService();
 
-    public async createUser(model: CreateUserDto): Promise<IUser> {
-        if (isEmptyObject(model)) {
-            throw new HttpException(HttpStatus.BadRequest, 'Model data is empty');
-        }
+    public async createUser(model: CreateUserDto, loggedUser: DataStoredInToken): Promise<IUser> {
+        await checkEmptyObject(model);
 
         let newUser = model;
+        const { role_code } = newUser;
+
+        // check role_code exists
+        await this.roleService.getItemByRoleCode(role_code);
 
         // check email duplicates
         await this.checkEmailDuplicate(newUser.email);
@@ -38,37 +42,80 @@ export default class UserService {
         // handle encode password
         newUser.password = await encodePassword(model.password);
 
-        // send mail for newUser with token
-        if (!newUser.is_verified) {
-            let subject: string = 'Verify your email address';
-            let content: string = `Hello, ${newUser.user_name}.`;
+        // create session
+        const session = await this.userSchema.startSession();
+        session.startTransaction();
 
-            // create token verification and assign token to newUser
-            const tokenData = createTokenVerifiedUser();
-            newUser.verification_token = tokenData.verification_token;
-            newUser.verification_token_expires = tokenData.verification_token_expires;
-            const domain = process.env.DOMAIN_FE;
-            content = `${content}\nPlease click the following link to verify your email address:\n${domain}/verify-email/${tokenData.verification_token}`;
-
-            const sendMailResult = await sendMail({
-                toMail: newUser.email,
-                subject: subject,
-                content: content,
-            });
-
-            if (!sendMailResult) {
-                throw new HttpException(HttpStatus.BadRequest, `Cannot send mail for ${newUser.email}`);
+        try {
+            // create user in transaction
+            const createdUser = await this.userSchema.create([newUser], { session });
+            if (!createdUser || createdUser.length === 0) {
+                throw new HttpException(HttpStatus.Accepted, `Create User failed!`);
             }
-        }
 
-        // create user in database and return result
-        const createdUser: IUser = await this.userSchema.create(newUser);
-        if (!createdUser) {
-            throw new HttpException(HttpStatus.Accepted, `Create User failed!`);
+            const resultUser: IUser = createdUser[0].toObject();
+
+            // create employee DTO and user info
+            const newEmployee = new CreateEmployeeDto(
+                resultUser._id,
+                '',
+                '',
+                resultUser.user_name,
+                '',
+                '',
+                '',
+                '',
+                '',
+                0,
+                '',
+                '',
+                '',
+                new Date(),
+                new Date(),
+            );
+            newEmployee.start_date = new Date();
+            newEmployee.updated_by = loggedUser?.id || null;
+
+            // create employee in transaction
+            const employee = new this.employeeSchema(newEmployee);
+            await employee.save({ session });
+
+            // send mail for newUser with token
+            if (!newUser.is_verified) {
+                let subject: string = 'Verify your email address';
+                let content: string = `Hello, ${newUser.user_name}.`;
+
+                // create token verification and assign token to newUser
+                const tokenData = createTokenVerifiedUser();
+                newUser.verification_token = tokenData.verification_token;
+                newUser.verification_token_expires = tokenData.verification_token_expires;
+                const domain = process.env.DOMAIN_FE;
+                content = `${content}\nPlease click the following link to verify your email address:\n${domain}/verify-email/${tokenData.verification_token}`;
+
+                const sendMailResult = await sendMail({
+                    toMail: newUser.email,
+                    subject: subject,
+                    content: content,
+                });
+
+                if (!sendMailResult) {
+                    throw new HttpException(HttpStatus.BadRequest, `Cannot send mail for ${newUser.email}`);
+                }
+            }
+
+            // commit transaction
+            await session.commitTransaction();
+            session.endSession();
+
+            delete resultUser.password;
+            return resultUser;
+        } catch (error) {
+            // if have error, rollback transaction
+            await session.abortTransaction();
+            session.endSession();
+
+            throw new HttpException(HttpStatus.InternalServerError, `${error}`);
         }
-        const resultUser: IUser = createdUser.toObject();
-        delete resultUser.password;
-        return resultUser;
     }
 
     public async getUsers(model: SearchPaginationUserDto): Promise<SearchPaginationResponseModel<IUser>> {
@@ -78,7 +125,7 @@ export default class UserService {
 
         let query = {};
         if (keyword) {
-            const keywordValue = keyword.toLowerCase().trim();
+            const keywordValue = keyword.trim();
             query = {
                 $or: [
                     { email: { $regex: keywordValue, $options: 'i' } },
@@ -88,7 +135,7 @@ export default class UserService {
         }
 
         if (role_code) {
-            const role_codeValue = role_code.toLowerCase().trim();
+            const role_codeValue = role_code.trim();
             query = {
                 ...query,
                 role_code: { $regex: role_codeValue, $options: 'i' },
@@ -141,9 +188,7 @@ export default class UserService {
     }
 
     public async changePassword(model: ChangePasswordDto, loggedUser: DataStoredInToken): Promise<boolean> {
-        if (isEmptyObject(model)) {
-            throw new HttpException(HttpStatus.BadRequest, 'Model data is empty');
-        }
+        await checkEmptyObject(model);
 
         const userId = loggedUser.id;
 
@@ -179,9 +224,7 @@ export default class UserService {
     }
 
     public async changeStatus(model: ChangeStatusDto): Promise<boolean> {
-        if (isEmptyObject(model)) {
-            throw new HttpException(HttpStatus.BadRequest, 'Model data is empty');
-        }
+        await checkEmptyObject(model);
 
         const userId = model.user_id;
 
@@ -206,28 +249,23 @@ export default class UserService {
     }
 
     public async changeRole(model: ChangeRoleDto): Promise<boolean> {
-        if (isEmptyObject(model)) {
-            throw new HttpException(HttpStatus.BadRequest, 'Model data is empty');
-        }
+        await checkEmptyObject(model);
 
-        const userId = model.user_id;
+        const { user_id, role_code } = model;
 
         // check user exits
-        const userExists = await this.getUser(userId);
+        const userExists = await this.getUser(user_id);
 
-        // check role_code exists in role
-        const roleExists = await this.roleSchema.findOne({ role_code: model.role_code, is_deleted: false }).lean();
-        if (!roleExists) {
-            throw new HttpException(HttpStatus.BadRequest, `Role code ${model.role_code} is not exists or is deleted!`);
-        }
+        // check role_code exists
+        const roleExists = await this.roleService.getItemByRoleCode(role_code);
 
         // check change role
-        if (userExists.role_code === model.role_code) {
+        if (userExists.role_code === role_code) {
             throw new HttpException(HttpStatus.BadRequest, `User role is already ${roleExists.role_name}`);
         }
 
         const updateUserId = await this.userSchema.updateOne(
-            { _id: userId },
+            { _id: user_id },
             { role_code: model.role_code, updated_at: new Date() },
         );
 
@@ -239,9 +277,7 @@ export default class UserService {
     }
 
     public async updateUser(userId: string, model: UpdateUserDto): Promise<IUser> {
-        if (isEmptyObject(model)) {
-            throw new HttpException(HttpStatus.BadRequest, 'Model data is empty');
-        }
+        await checkEmptyObject(model);
 
         // check user exits
         const userExists = await this.getUser(userId);
@@ -263,15 +299,12 @@ export default class UserService {
             throw new HttpException(HttpStatus.BadRequest, 'Update user info failed!');
         }
 
-        const updateUser = await this.getUser(userId);
-        return updateUser;
+        return this.getUser(userId);
     }
 
     public async deleteUser(userId: string): Promise<boolean> {
-        const user = await this.getUser(userId);
-        if (!user) {
-            throw new HttpException(HttpStatus.BadRequest, `Item is not exists.`);
-        }
+        // check item exists
+        await this.getUser(userId);
 
         const updateUserId = await this.userSchema.updateOne(
             { _id: userId },

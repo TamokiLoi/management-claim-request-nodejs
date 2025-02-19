@@ -50,8 +50,20 @@ const options = {
                 description: 'Job related endpoints',
             },
             {
+                name: 'Contract',
+                description: 'Contract related endpoints',
+            },
+            {
                 name: 'User',
                 description: 'User related endpoints',
+            },
+            {
+                name: 'Employee',
+                description: 'Employee related endpoints',
+            },
+            {
+                name: 'Project',
+                description: 'Project related endpoints',
             },
         ],
     },

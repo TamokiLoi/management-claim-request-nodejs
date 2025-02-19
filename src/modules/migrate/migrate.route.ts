@@ -192,5 +192,56 @@ export default class MigrateRoute implements IRoute {
          */
         // GET domain:/api/migrate/user-admin -> Migrate User admin default
         this.router.get(API_PATH.MIGRATE_USER_ADMIN, this.migrateController.migrateUserAdmin);
+
+        /**
+         * @swagger
+         * /api/migrate/contracts:
+         *   get:
+         *     summary: Fetch migration contracts
+         *     security:
+         *       - Bearer: []
+         *     tags: [Migrate]
+         *     responses:
+         *       200:
+         *         description: List of migration contracts
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 success:
+         *                   type: boolean
+         *                   example: true
+         *                 data:
+         *                   type: array
+         *                   items:
+         *                     type: object
+         *                     properties:
+         *                       _id:
+         *                         type: string
+         *                         example: 678f664ec7c458183d030b21
+         *                       contract_type:
+         *                         type: string
+         *                         example: one_year
+         *                       description:
+         *                         type: string
+         *                         example: Contract limit in one year.
+         *                       is_deleted:
+         *                         type: boolean
+         *                         example: false
+         *                       created_at:
+         *                         type: string
+         *                         format: date-time
+         *                         example: 2025-01-21T09:18:06.976Z
+         *                       updated_at:
+         *                         type: string
+         *                         format: date-time
+         *                         example: 2025-01-21T09:18:06.976Z
+         *                       __v:
+         *                         type: integer
+         *                         example: 0
+         */
+        // GET domain:/api/migrate/contracts -> Migrate Contracts default
+        this.router.get(API_PATH.MIGRATE_CONTRACTS, this.migrateController.migrateContracts);
     }
 }

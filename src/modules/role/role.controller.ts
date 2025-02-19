@@ -23,7 +23,8 @@ export default class RoleController {
 
     public getAllItems = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const result: IRole[] = await this.roleService.getAllItems(req.params.keyword);
+            const { keyword } = req.query;
+            const result: IRole[] = await this.roleService.getAllItems((keyword as string) || '');
             res.status(HttpStatus.Success).json(formatResponse<IRole[]>(result));
         } catch (error) {
             next(error);

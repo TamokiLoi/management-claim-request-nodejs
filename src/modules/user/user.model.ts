@@ -5,10 +5,10 @@ import { UserFieldName } from './user.enum';
 import { IUser } from './user.interface';
 
 const UserSchemaEntity: Schema<IUser> = new Schema({
-    [UserFieldName.EMAIL]: { type: String, unique: true, index: true, required: true },
-    [UserFieldName.PASSWORD]: { type: String, required: true },
-    [UserFieldName.USER_NAME]: { type: String, required: true },
-    [UserFieldName.ROLE_CODE]: { type: Schema.Types.String, ref: COLLECTION_NAME.ROLE, required: true },
+    [UserFieldName.EMAIL]: { type: String, unique: true, index: true },
+    [UserFieldName.PASSWORD]: { type: String },
+    [UserFieldName.USER_NAME]: { type: String },
+    [UserFieldName.ROLE_CODE]: { type: Schema.Types.String, ref: COLLECTION_NAME.ROLE },
 
     [UserFieldName.IS_VERIFIED]: { type: Boolean, default: false },
     [UserFieldName.VERIFICATION_TOKEN]: { type: String },

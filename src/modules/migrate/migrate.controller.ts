@@ -1,15 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
 import { HttpStatus } from '../../core/enums';
 import { formatResponse } from '../../core/utils';
+import { ContractFieldName, ContractSchema } from '../contract';
 import { JobFieldName, JobSchema } from '../job';
 import { RoleFieldName, RoleSchema } from '../role';
 import { IUser, UserService } from '../user';
-import { DEFAULT_ADMIN, DEFAULT_JOBS, DEFAULT_ROLES } from './migrate.constant';
+import { DEFAULT_ADMIN, DEFAULT_CONTRACTS, DEFAULT_JOBS, DEFAULT_ROLES } from './migrate.constant';
 
 export default class MigrateController {
     private userService = new UserService();
     private roleSchema = RoleSchema;
     private jobSchema = JobSchema;
+    private contractSchema = ContractSchema;
 
     public migrateRoles = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -57,8 +59,32 @@ export default class MigrateController {
 
     public migrateUserAdmin = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const user: IUser = await this.userService.createUser(DEFAULT_ADMIN);
+            const user: IUser = await this.userService.createUser(DEFAULT_ADMIN, req.user);
             res.status(HttpStatus.Created).json(formatResponse<IUser>(user));
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public migrateContracts = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const createItems = [];
+            for (const item of DEFAULT_CONTRACTS) {
+                const exists = await this.contractSchema.findOne({
+                    contract_type: item[ContractFieldName.CONTRACT_TYPE],
+                });
+                if (!exists) {
+                    const newItem = await this.contractSchema.create(item);
+                    createItems.push(newItem);
+                }
+            }
+            if (createItems.length > 0) {
+                res.status(HttpStatus.Created).json(formatResponse<any>(createItems));
+            } else {
+                res.status(HttpStatus.Success).json({
+                    message: 'All default contracts already exist.',
+                });
+            }
         } catch (error) {
             next(error);
         }

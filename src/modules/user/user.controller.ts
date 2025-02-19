@@ -17,7 +17,7 @@ export default class UserController {
     public createUser = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const model: CreateUserDto = req.body;
-            const user: IUser = await this.userService.createUser(model);
+            const user: IUser = await this.userService.createUser(model, req.user);
             res.status(HttpStatus.Created).json(formatResponse<IUser>(user));
         } catch (error) {
             next(error);

@@ -1,7 +1,13 @@
-import { FilterQuery, Model } from 'mongoose';
 import { HttpStatus } from '../enums';
 import { HttpException } from '../exceptions';
 import { IError } from '../interfaces';
+import { isEmptyObject } from './helpers';
+
+export const checkEmptyObject = <T extends object>(obj: T) => {
+    if (isEmptyObject(obj)) {
+        throw new HttpException(HttpStatus.BadRequest, 'Model data is empty');
+    }
+};
 
 export const checkUserMatch = (userId: string, userInItem: string, title: string) => {
     if (userId !== userInItem) {
@@ -14,34 +20,14 @@ export const checkValidUrl = (url: string) => {
     return urlPattern.test(url);
 };
 
-export async function checkFieldsExists<T>(
-    schema: Model<T>,
-    fields: { fieldName: string; fieldValue: string }[],
-    errorResults: IError[],
-    title: string,
-): Promise<IError[]> {
-    for (const { fieldName, fieldValue } of fields) {
-        const fieldValid = await checkFieldExists(schema, fieldName, fieldValue);
-        if (fieldValid) {
-            errorResults.push({
-                message: `${title} with ${fieldName.replace('_', ' ')} '${fieldValue}' already exists!`,
-                field: fieldName,
-            });
-        }
-    }
-    return errorResults;
-}
+export const normalizeParam = (param: string) => {
+    if (param == null) return null;
 
-export async function checkFieldExists<T>(schema: Model<T>, fieldName: string, fieldValue: string): Promise<T | null> {
-    const escapedValue = fieldValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const query = {
-        [fieldName]: { $regex: new RegExp('^' + escapedValue + '$', 'i') },
-    } as FilterQuery<T>;
+    const normalized = String(param).trim();
 
-    try {
-        const result = await schema.findOne(query);
-        return result;
-    } catch (error) {
-        throw new HttpException(HttpStatus.BadRequest, 'Database query failed');
+    if (normalized === "''" || normalized === '""' || normalized === '') {
+        return null;
     }
-}
+
+    return normalized.replace(/^["']|["']$/g, '');
+};
