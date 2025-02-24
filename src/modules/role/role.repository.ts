@@ -1,4 +1,4 @@
-import { BaseRepository } from '../../core/repositoty';
+import { BaseRepository } from '../../core/repository';
 import { IRole } from './role.interface';
 import RoleSchema from './role.model';
 

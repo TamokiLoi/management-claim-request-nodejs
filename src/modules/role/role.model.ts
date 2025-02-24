@@ -5,8 +5,8 @@ import { IRole } from './role.interface';
 import { RoleFieldName } from './role.enum';
 
 const RoleSchemaEntity: Schema<IRole> = new Schema({
-    [RoleFieldName.ROLE_CODE]: { type: String, unique: true, index: true, required: true },
-    [RoleFieldName.ROLE_NAME]: { type: String, unique: true, required: true },
+    [RoleFieldName.ROLE_CODE]: { type: String, unique: true, index: true },
+    [RoleFieldName.ROLE_NAME]: { type: String, unique: true },
     [RoleFieldName.DESCRIPTION]: { type: String },
     ...BaseModelFields,
 });

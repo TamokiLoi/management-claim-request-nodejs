@@ -5,7 +5,7 @@ import { ContractFieldName } from './contract.enum';
 import { IContract } from './contract.interface';
 
 const ContractSchemaEntity: Schema<IContract> = new Schema({
-    [ContractFieldName.CONTRACT_TYPE]: { type: String, unique: true, index: true, required: true },
+    [ContractFieldName.CONTRACT_TYPE]: { type: String, unique: true, index: true },
     [ContractFieldName.DESCRIPTION]: { type: String },
     ...BaseModelFields,
 });

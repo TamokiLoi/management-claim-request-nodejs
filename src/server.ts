@@ -2,7 +2,10 @@ import dotenv from 'dotenv';
 import App from './app';
 import { validateEnv } from './core/utils';
 import { AuthRoute } from './modules/auth';
+import { ClaimRoute } from './modules/claim';
+import { ClaimLogRoute } from './modules/claim/log';
 import { ContractRoute } from './modules/contract';
+import { DepartmentRoute } from './modules/department';
 import { EmployeeRoute } from './modules/employee';
 import { IndexRoute } from './modules/index';
 import { JobRoute } from './modules/job';
@@ -20,11 +23,14 @@ const routes = [
     new MigrateRoute(),
     new AuthRoute(),
     new RoleRoute(),
+    new DepartmentRoute(),
     new JobRoute(),
     new ContractRoute(),
     new UserRoute(),
     new EmployeeRoute(),
-    new ProjectRoute()
+    new ProjectRoute(),
+    new ClaimRoute(),
+    new ClaimLogRoute(),
 ];
 
 const app = new App(routes);

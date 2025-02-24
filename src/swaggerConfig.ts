@@ -50,6 +50,10 @@ const options = {
                 description: 'Job related endpoints',
             },
             {
+                name: 'Department',
+                description: 'Department related endpoints',
+            },
+            {
                 name: 'Contract',
                 description: 'Contract related endpoints',
             },
@@ -65,6 +69,14 @@ const options = {
                 name: 'Project',
                 description: 'Project related endpoints',
             },
+            {
+                name: 'Claim',
+                description: 'Claim related endpoints',
+            },
+            {
+                name: 'Claim Logs',
+                description: 'Claim Logs related endpoints',
+            }
         ],
     },
     apis: ['./src/modules/**/*.ts'], // Path to the API docs

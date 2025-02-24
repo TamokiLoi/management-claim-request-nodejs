@@ -1,5 +1,6 @@
 import { BaseContractType, BaseJobName, BaseJobRank, BaseRoleCode } from '../../core/enums';
 import { ContractFieldName } from '../contract';
+import { DepartmentFieldName } from '../department/department.enum';
 import { JobFieldName } from '../job';
 import { RoleFieldName } from '../role';
 import { CreateUserDto } from '../user';
@@ -54,6 +55,29 @@ export const DEFAULT_JOBS = [
     { [JobFieldName.JOB_RANK]: BaseJobRank.TC1, [JobFieldName.JOB_TITLE]: BaseJobName.TC },
     { [JobFieldName.JOB_RANK]: BaseJobRank.TC2, [JobFieldName.JOB_TITLE]: BaseJobName.TC },
     { [JobFieldName.JOB_RANK]: BaseJobRank.TC3, [JobFieldName.JOB_TITLE]: BaseJobName.TC },
+];
+
+export const DEFAULT_DEPARTMENTS = [
+    {
+        [DepartmentFieldName.DEPARTMENT_CODE]: 'DE01',
+        [DepartmentFieldName.DEPARTMENT_NAME]: 'Department 01',
+        [RoleFieldName.DESCRIPTION]: 'Department 01',
+    },
+    {
+        [DepartmentFieldName.DEPARTMENT_CODE]: 'DE02',
+        [DepartmentFieldName.DEPARTMENT_NAME]: 'Department 02',
+        [RoleFieldName.DESCRIPTION]: 'Department 02',
+    },
+    {
+        [DepartmentFieldName.DEPARTMENT_CODE]: 'DE03',
+        [DepartmentFieldName.DEPARTMENT_NAME]: 'Department 03',
+        [RoleFieldName.DESCRIPTION]: 'Department 03',
+    },
+    {
+        [DepartmentFieldName.DEPARTMENT_CODE]: 'DE04',
+        [DepartmentFieldName.DEPARTMENT_NAME]: 'Department 04',
+        [RoleFieldName.DESCRIPTION]: 'Department 04',
+    },
 ];
 
 export const DEFAULT_ADMIN = new CreateUserDto(

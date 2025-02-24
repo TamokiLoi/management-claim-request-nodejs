@@ -16,6 +16,8 @@ export default class SearchProjectDto {
     @IsString()
     public [ProjectFieldName.PROJECT_END_DATE]: Date | string;
 
+    public user_id: string;
+
     @IsBoolean()
     public is_deleted: boolean;
 
@@ -24,12 +26,14 @@ export default class SearchProjectDto {
         project_status: ProjectStatusType | string = '',
         project_start_date: Date | string = '',
         project_end_date: Date | string = '',
+        user_id: string = '',
         is_deleted: boolean = false,
     ) {
         this.keyword = keyword;
         this.project_status = project_status;
         this.project_start_date = project_start_date;
         this.project_end_date = project_end_date;
+        this.user_id = user_id;
         this.is_deleted = is_deleted;
     }
 }

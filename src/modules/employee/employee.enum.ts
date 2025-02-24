@@ -13,5 +13,6 @@ export enum EmployeeFieldName {
     CONTRACT_TYPE = 'contract_type',
     START_DATE = 'start_date',
     END_DATE = 'end_date',
+    BALANCE = 'balance',
     UPDATED_BY = 'updated_by',
 }

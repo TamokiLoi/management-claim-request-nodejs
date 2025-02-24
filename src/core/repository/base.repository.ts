@@ -1,5 +1,6 @@
 import { Document, FilterQuery, Model, UpdateWriteOpResult } from 'mongoose';
 import { IError } from '../interfaces';
+import { normalizeParam } from '../models';
 
 export class BaseRepository<T extends Document> {
     protected model: Model<T>;
@@ -13,20 +14,44 @@ export class BaseRepository<T extends Document> {
         return (await newItem.save()) as T;
     }
 
-    public async findById(id: string): Promise<T | null> {
+    public findById(id: string): Promise<T | null> {
         return this.model.findOne({ _id: id, is_deleted: false });
     }
 
-    public async findAll(): Promise<T[]> {
+    public findAll(): Promise<T[]> {
         return this.model.find().exec();
     }
 
-    public async update(id: string, data: Partial<T>): Promise<T | null> {
-        return this.model.findByIdAndUpdate(id, data, { new: true }).exec();
+    public findItemsWithKeyword(
+        keyword: string,
+        searchableFields: string[],
+        additionalQuery: FilterQuery<T> = {},
+    ): Promise<T[]> {
+        let query: FilterQuery<T> = { ...additionalQuery };
+
+        const keywordValue = normalizeParam(keyword)?.trim();
+        if (keywordValue) {
+            query.$or = searchableFields.map((field) => ({
+                [field]: { $regex: keywordValue, $options: 'i' },
+            })) as FilterQuery<T>[];
+        }
+
+        return this.model
+            .find({ ...query, is_deleted: false })
+            .sort({ updated_at: -1 })
+            .exec();
+    }
+
+    public async update(id: string, data: Partial<T>): Promise<T> {
+        const updatedDoc = await this.model.findByIdAndUpdate(id, data, { new: true }).exec();
+        if (!updatedDoc) {
+            throw new Error(`Document with ID ${id} not found`);
+        }
+        return updatedDoc;
     }
 
     // delete flag logic
-    public async delete(id: string): Promise<UpdateWriteOpResult> {
+    public delete(id: string): Promise<UpdateWriteOpResult> {
         return this.model.updateOne({ _id: id }, { is_deleted: true, updated_at: new Date() });
     }
 

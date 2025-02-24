@@ -46,12 +46,12 @@ export default class ProjectService {
             throw new HttpException(HttpStatus.BadRequest, '', errorResults);
         }
 
-        // create project
-        const newProject = await this.projectRepository.create(model);
-        if (!newProject) {
+        // create new item
+        const newItem = await this.projectRepository.create(model);
+        if (!newItem) {
             throw new HttpException(HttpStatus.Accepted, 'Create project failed!');
         }
-        return newProject;
+        return newItem;
     }
 
     public async getItems(model: SearchPaginationProjectDto): Promise<SearchPaginationResponseModel<IProject>> {
@@ -60,7 +60,7 @@ export default class ProjectService {
         if (project_start_date && project_end_date) {
             await compareDate(project_start_date, project_end_date);
         }
-        
+
         const { data, total } = await this.projectRepository.getItems(model);
         return formatSearchPaginationResponse(data, {
             ...model.pageInfo,
@@ -124,11 +124,9 @@ export default class ProjectService {
         };
 
         const updatedItem = await this.projectRepository.update(id, updateData);
-
         if (!updatedItem) {
             throw new HttpException(HttpStatus.BadRequest, 'Update project info failed!');
         }
-
         return this.getItem(id);
     }
 
@@ -147,7 +145,7 @@ export default class ProjectService {
     }
 
     public async updateStatus(model: UpdateProjectStatusDto, loggedUser: DataStoredInToken): Promise<boolean> {
-        const { project_id, project_status, project_comment } = model;
+        const { project_id, project_status } = model;
 
         // check item exists
         const item = await this.getItem(project_id);
@@ -169,6 +167,8 @@ export default class ProjectService {
                 `Invalid status change. Current status: ${old_status} -> ${new_status}`,
             );
         }
+
+        model.updated_by = loggedUser.id;
 
         const updatedItem = await this.projectRepository.updateStatus(model);
 

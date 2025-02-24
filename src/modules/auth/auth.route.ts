@@ -4,6 +4,7 @@ import { IRoute } from '../../core/interfaces';
 import { authMiddleWare, validationMiddleware } from '../../core/middleware';
 import AuthController from './auth.controller';
 import LoginDto from './dto/login.dto';
+import { BaseRoleCode } from '../../core/enums';
 
 export default class AuthRoute implements IRoute {
     public path = API_PATH.AUTH;
@@ -262,5 +263,46 @@ export default class AuthRoute implements IRoute {
          *                   example: null
          */
         this.router.put(API_PATH.AUTH_FORGOT_PASSWORD, this.authController.forgotPassword);
+
+        /**
+         * @swagger
+         * /api/auth/trigger-verify-token:
+         *   post:
+         *     summary: Trigger Verify user
+         *     security:
+         *      - Bearer: []
+         *     tags: [Auth]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               email:
+         *                 type: string
+         *                 example: account@gmail.com
+         *     responses:
+         *       200:
+         *         description: User verified
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 success:
+         *                   type: boolean
+         *                   example: true
+         *                 data:
+         *                   type: object
+         *                   nullable: true
+         *                   example: null
+         */
+        // POST domain:/api/auth/trigger-verify-token -> Admin trigger verified user
+        this.router.post(
+            API_PATH.AUTH_TRIGGER_VERIFY_TOKEN,
+            authMiddleWare([BaseRoleCode.A001]),
+            this.authController.triggerVerifiedToken,
+        );
     }
 }

@@ -1,14 +1,13 @@
-
-import { plainToInstance } from "class-transformer";
-import { ValidationError, validate } from "class-validator";
-import { NextFunction, Request, RequestHandler, Response } from "express";
-import { HttpStatus } from "../enums";
-import { HttpException } from "../exceptions";
-import { IError } from "../interfaces";
+import { plainToInstance } from 'class-transformer';
+import { ValidationError, validate } from 'class-validator';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { HttpStatus } from '../enums';
+import { HttpException } from '../exceptions';
+import { IError } from '../interfaces';
 
 const validationMiddleware = (type: any, skipMissingProperties = false): RequestHandler => {
     return (req: Request, res: Response, next: NextFunction) => {
-        validate(plainToInstance(type, req.body), { skipMissingProperties: skipMissingProperties }).then(
+        validate(plainToInstance(type, req.body, { enableImplicitConversion: true }), { skipMissingProperties }).then(
             (errors: ValidationError[]) => {
                 if (errors.length > 0) {
                     let errorResults: IError[] = [];
@@ -33,11 +32,11 @@ const validationMiddleware = (type: any, skipMissingProperties = false): Request
                         extractConstraints(error);
                     });
 
-                    next(new HttpException(HttpStatus.BadRequest, "", errorResults));
+                    next(new HttpException(HttpStatus.BadRequest, '', errorResults));
                 } else {
                     next();
                 }
-            }
+            },
         );
     };
 };

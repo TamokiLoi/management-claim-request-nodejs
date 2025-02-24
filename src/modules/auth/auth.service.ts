@@ -71,10 +71,12 @@ export default class AuthService {
         if (!user) {
             throw new HttpException(HttpStatus.BadRequest, `Token is not valid.`);
         }
+
         const tokenExpires = moment(
             user?.verification_token_expires?.toString(),
             'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ',
         ).toDate();
+
         if (moment(new Date()).isAfter(moment(tokenExpires))) {
             throw new HttpException(HttpStatus.BadRequest, `Token is expired!`);
         }
@@ -155,6 +157,35 @@ export default class AuthService {
         user.updated_at = new Date();
         const updateUser = await user.save();
         if (!updateUser) {
+            throw new HttpException(HttpStatus.BadRequest, 'Cannot update user!');
+        }
+
+        return true;
+    }
+
+    public async triggerVerifiedTokenUser(email: string): Promise<boolean> {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            throw new HttpException(HttpStatus.BadRequest, 'Invalid email format.');
+        }
+
+        const user = await this.userSchema.findOne({ email, is_deleted: false });
+
+        if (!user) {
+            throw new HttpException(HttpStatus.BadRequest, `Email is not exists.`);
+        }
+
+        if (user.is_verified) {
+            throw new HttpException(HttpStatus.BadRequest, `Email: ${email} has already verified.`);
+        }
+
+        user.is_verified = true;
+        user.verification_token = undefined;
+        user.verification_token_expires = undefined;
+        user.updated_at = new Date();
+
+        const updateUserId = await user.save();
+        if (!updateUserId) {
             throw new HttpException(HttpStatus.BadRequest, 'Cannot update user!');
         }
 

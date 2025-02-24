@@ -27,7 +27,7 @@ export default class UserService {
     public employeeSchema = EmployeeSchema;
     private roleService = new RoleService();
 
-    public async createUser(model: CreateUserDto, loggedUser: DataStoredInToken): Promise<IUser> {
+    public async create(model: CreateUserDto, loggedUser: DataStoredInToken): Promise<IUser> {
         await checkEmptyObject(model);
 
         let newUser = model;
@@ -118,7 +118,7 @@ export default class UserService {
         }
     }
 
-    public async getUsers(model: SearchPaginationUserDto): Promise<SearchPaginationResponseModel<IUser>> {
+    public async getItems(model: SearchPaginationUserDto): Promise<SearchPaginationResponseModel<IUser>> {
         const searchCondition = { ...new SearchUserDto(), ...model.searchCondition };
         const { keyword, role_code, is_blocked, is_deleted, is_verified } = searchCondition;
         const { pageNum, pageSize } = model.pageInfo;
@@ -176,7 +176,7 @@ export default class UserService {
         return result;
     }
 
-    public async getUser(userId: string, is_deletedPassword = true): Promise<IUser> {
+    public async getItem(userId: string, is_deletedPassword = true): Promise<IUser> {
         const user = await this.userSchema.findOne({ _id: userId, is_deleted: false }).lean();
         if (!user) {
             throw new HttpException(HttpStatus.BadRequest, `User is not exists.`);
@@ -193,7 +193,7 @@ export default class UserService {
         const userId = loggedUser.id;
 
         // check updateUser exits
-        const updateUser = await this.getUser(userId, false);
+        const updateUser = await this.getItem(userId, false);
 
         // check old_password match
         if (model.old_password) {
@@ -229,7 +229,7 @@ export default class UserService {
         const userId = model.user_id;
 
         // check user exits
-        const user = await this.getUser(userId);
+        const user = await this.getItem(userId);
 
         // check change status
         if (user.is_blocked === model.is_blocked) {
@@ -254,7 +254,7 @@ export default class UserService {
         const { user_id, role_code } = model;
 
         // check user exits
-        const userExists = await this.getUser(user_id);
+        const userExists = await this.getItem(user_id);
 
         // check role_code exists
         const roleExists = await this.roleService.getItemByRoleCode(role_code);
@@ -276,11 +276,11 @@ export default class UserService {
         return true;
     }
 
-    public async updateUser(userId: string, model: UpdateUserDto): Promise<IUser> {
+    public async update(userId: string, model: UpdateUserDto): Promise<IUser> {
         await checkEmptyObject(model);
 
         // check user exits
-        const userExists = await this.getUser(userId);
+        const userExists = await this.getItem(userId);
 
         if (userExists.email.toLowerCase().trim() !== model.email.toLowerCase().trim()) {
             // check email duplicates
@@ -299,12 +299,12 @@ export default class UserService {
             throw new HttpException(HttpStatus.BadRequest, 'Update user info failed!');
         }
 
-        return this.getUser(userId);
+        return this.getItem(userId);
     }
 
-    public async deleteUser(userId: string): Promise<boolean> {
+    public async delete(userId: string): Promise<boolean> {
         // check item exists
-        await this.getUser(userId);
+        await this.getItem(userId);
 
         const updateUserId = await this.userSchema.updateOne(
             { _id: userId },

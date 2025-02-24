@@ -24,7 +24,7 @@ export default class EmployeeService {
 
     public async create(model: CreateEmployeeDto, loggedUser: DataStoredInToken): Promise<IEmployee> {
         // Check user exists
-        await this.userService.getUser(model.user_id);
+        await this.userService.getItem(model.user_id);
 
         model.updated_by = loggedUser.id || 'admin';
 
@@ -53,7 +53,7 @@ export default class EmployeeService {
         const { user_id, job_rank, contract_type } = model;
 
         // Check user exists
-        await this.userService.getUser(user_id);
+        await this.userService.getItem(user_id);
 
         // Check job_rank exists
         await this.jobService.getItemByJobRank(job_rank);

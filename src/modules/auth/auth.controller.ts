@@ -63,4 +63,13 @@ export default class AuthController {
             next(error);
         }
     };
+
+    public triggerVerifiedToken = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            await this.authService.triggerVerifiedTokenUser(req.body.email);
+            res.status(HttpStatus.Success).json(formatResponse<null>(null));
+        } catch (error) {
+            next(error);
+        }
+    }
 }

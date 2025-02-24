@@ -115,7 +115,7 @@ export default class UserRoute implements IRoute {
             this.path,
             authMiddleWare([BaseRoleCode.A001]),
             validationMiddleware(CreateUserDto),
-            this.userController.createUser,
+            this.userController.create,
         );
 
         /**
@@ -236,7 +236,7 @@ export default class UserRoute implements IRoute {
             API_PATH.SEARCH_USERS,
             authMiddleWare([BaseRoleCode.A001]),
             validationMiddleware(SearchPaginationUserDto),
-            this.userController.getUsers,
+            this.userController.getItems,
         );
 
         /**
@@ -310,7 +310,7 @@ export default class UserRoute implements IRoute {
          *                       example: 0
          */
         // GET domain:/api/users/:id -> Get user by id
-        this.router.get(`${this.path}/:id`, authMiddleWare([BaseRoleCode.A001]), this.userController.getUser);
+        this.router.get(`${this.path}/:id`, authMiddleWare([BaseRoleCode.A001]), this.userController.getItem);
 
         /**
          * @swagger
@@ -527,7 +527,7 @@ export default class UserRoute implements IRoute {
             `${this.path}/:id`,
             authMiddleWare(),
             validationMiddleware(UpdateUserDto),
-            this.userController.updateUser,
+            this.userController.update,
         );
 
         /**
@@ -558,6 +558,6 @@ export default class UserRoute implements IRoute {
          *                   nullable: true
          */
         // DELETE domain:/api/users/:id -> Delete user logic
-        this.router.delete(`${this.path}/:id`, authMiddleWare([BaseRoleCode.A001]), this.userController.deleteUser);
+        this.router.delete(`${this.path}/:id`, authMiddleWare([BaseRoleCode.A001]), this.userController.delete);
     }
 }

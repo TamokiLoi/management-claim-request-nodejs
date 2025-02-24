@@ -2,14 +2,17 @@ import { NextFunction, Request, Response } from 'express';
 import { HttpStatus } from '../../core/enums';
 import { formatResponse } from '../../core/utils';
 import { ContractFieldName, ContractSchema } from '../contract';
+import { DepartmentSchema } from '../department';
+import { DepartmentFieldName } from '../department/department.enum';
 import { JobFieldName, JobSchema } from '../job';
 import { RoleFieldName, RoleSchema } from '../role';
 import { IUser, UserService } from '../user';
-import { DEFAULT_ADMIN, DEFAULT_CONTRACTS, DEFAULT_JOBS, DEFAULT_ROLES } from './migrate.constant';
+import { DEFAULT_ADMIN, DEFAULT_CONTRACTS, DEFAULT_DEPARTMENTS, DEFAULT_JOBS, DEFAULT_ROLES } from './migrate.constant';
 
 export default class MigrateController {
     private userService = new UserService();
     private roleSchema = RoleSchema;
+    private departmentSchema = DepartmentSchema;
     private jobSchema = JobSchema;
     private contractSchema = ContractSchema;
 
@@ -57,9 +60,33 @@ export default class MigrateController {
         }
     };
 
+    public migrateDepartments = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const createItems = [];
+            for (const item of DEFAULT_DEPARTMENTS) {
+                const exists = await this.departmentSchema.findOne({
+                    department_code: item[DepartmentFieldName.DEPARTMENT_CODE],
+                });
+                if (!exists) {
+                    const newItem = await this.departmentSchema.create(item);
+                    createItems.push(newItem);
+                }
+            }
+            if (createItems.length > 0) {
+                res.status(HttpStatus.Created).json(formatResponse<any>(createItems));
+            } else {
+                res.status(HttpStatus.Success).json({
+                    message: 'All default department already exist.',
+                });
+            }
+        } catch (error) {
+            next(error);
+        }
+    };
+
     public migrateUserAdmin = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const user: IUser = await this.userService.createUser(DEFAULT_ADMIN, req.user);
+            const user: IUser = await this.userService.create(DEFAULT_ADMIN, req.user);
             res.status(HttpStatus.Created).json(formatResponse<IUser>(user));
         } catch (error) {
             next(error);

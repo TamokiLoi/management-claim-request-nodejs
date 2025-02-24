@@ -1,4 +1,4 @@
-import { BaseRepository } from '../../core/repositoty';
+import { BaseRepository } from '../../core/repository';
 import { IEmployee } from './employee.interface';
 import EmployeeSchema from './employee.model';
 

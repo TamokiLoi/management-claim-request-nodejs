@@ -173,6 +173,9 @@ export default class ProjectRoute implements IRoute {
          *                   is_delete:
          *                     type: boolean
          *                     example: false
+         *                   user_id:
+         *                     type: string
+         *                     example: ""
          *               pageInfo:
          *                 type: object
          *                 properties:
@@ -381,7 +384,7 @@ export default class ProjectRoute implements IRoute {
          *                             example: "Tamoki Loi"
          */
         // GET domain:/api/projects/:id -> Get project by id
-        this.router.get(`${this.path}/:id`, authMiddleWare(), this.projectController.getDetail);
+        this.router.get(`${this.path}/:id`, authMiddleWare(), this.projectController.getItem);
 
         /**
          * @swagger
@@ -424,7 +427,7 @@ export default class ProjectRoute implements IRoute {
          *                   type: object
          *                   nullable: true
          */
-        // DELETE domain:/api/projects/change-status -> Change project status
+        // PUT domain:/api/projects/change-status -> Change project status
         this.router.put(
             API_PATH.PROJECTS_CHANGE_STATUS,
             authMiddleWare([BaseRoleCode.A001]),

@@ -76,6 +76,60 @@ export default class MigrateRoute implements IRoute {
 
         /**
          * @swagger
+         * /api/migrate/departments:
+         *   get:
+         *     summary: Migration Departments default
+         *     security:
+         *      - Bearer: []
+         *     tags: [Migrate]
+         *     responses:
+         *       200:
+         *         description: Migration Departments default
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 success:
+         *                   type: boolean
+         *                   example: true
+         *                 data:
+         *                   type: array
+         *                   items:
+         *                     type: object
+         *                     properties:
+         *                       _id:
+         *                         type: string
+         *                         example: 67b6e13f11fa7aaa83543093
+         *                       department_code:
+         *                         type: string
+         *                         example: DE01
+         *                       department_name:
+         *                         type: string
+         *                         example: Department 01
+         *                       description:
+         *                         type: string
+         *                         example: Department 01
+         *                       is_deleted:
+         *                         type: boolean
+         *                         example: false
+         *                       created_at:
+         *                         type: string
+         *                         format: date-time
+         *                         example: 2025-02-20T08:01:03.241Z
+         *                       updated_at:
+         *                         type: string
+         *                         format: date-time
+         *                         example: 2025-02-20T08:01:03.241Z
+         *                       __v:
+         *                         type: integer
+         *                         example: 0
+         */
+        // GET domain:/api/migrate/departments -> Migrate Departments default
+        this.router.get(API_PATH.MIGRATE_DEPARTMENTS, this.migrateController.migrateDepartments);
+
+        /**
+         * @swagger
          * /api/migrate/jobs:
          *   get:
          *     summary: Fetch migration jobs
