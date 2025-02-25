@@ -145,10 +145,10 @@ export default class ProjectService {
     }
 
     public async updateStatus(model: UpdateProjectStatusDto, loggedUser: DataStoredInToken): Promise<boolean> {
-        const { project_id, project_status } = model;
+        const { _id, project_status } = model;
 
         // check item exists
-        const item = await this.getItem(project_id);
+        const item = await this.getItem(_id);
 
         const old_status = item.project_status;
         const new_status = project_status;

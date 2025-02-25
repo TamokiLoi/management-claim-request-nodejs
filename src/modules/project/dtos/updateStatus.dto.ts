@@ -6,7 +6,7 @@ import { ProjectStatusList } from '../project.constant';
 
 export default class UpdateProjectStatusDto extends BaseDto {
     @IsNotEmpty()
-    public [ProjectFieldName.PROJECT_ID]: string;
+    public [ProjectFieldName.ID]: string;
 
     @IsIn(ProjectStatusList)
     public [ProjectFieldName.PROJECT_STATUS]: ProjectStatusType;
@@ -16,7 +16,7 @@ export default class UpdateProjectStatusDto extends BaseDto {
     public [ProjectFieldName.UPDATED_BY]: string | null;
 
     constructor(
-        project_id: string,
+        _id: string,
         project_status: ProjectStatusType,
         project_comment: string,
         updated_by: string | null,
@@ -26,7 +26,7 @@ export default class UpdateProjectStatusDto extends BaseDto {
         is_deleted: boolean = false,
     ) {
         super(created_at, updated_at, is_deleted);
-        this.project_id = project_id;
+        this._id = _id;
         this.project_status = project_status;
         this.project_comment = project_comment;
         this.updated_by = updated_by;

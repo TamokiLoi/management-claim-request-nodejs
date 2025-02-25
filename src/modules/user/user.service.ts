@@ -1,6 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import { HttpStatus } from '../../core/enums';
 import { HttpException } from '../../core/exceptions';
+import { IError } from '../../core/interfaces';
 import { SearchPaginationResponseModel } from '../../core/models';
 import {
     checkEmptyObject,
@@ -21,11 +22,17 @@ import SearchUserDto from './dtos/searchUser.dto';
 import UpdateUserDto from './dtos/updateUser.dto';
 import { IUser } from './user.interface';
 import UserSchema from './user.model';
+import { UserRepository } from './user.repository';
 
 export default class UserService {
     public userSchema = UserSchema;
     public employeeSchema = EmployeeSchema;
     private roleService = new RoleService();
+    private userRepository: UserRepository;
+
+    constructor() {
+        this.userRepository = new UserRepository();
+    }
 
     public async create(model: CreateUserDto, loggedUser: DataStoredInToken): Promise<IUser> {
         await checkEmptyObject(model);
@@ -39,6 +46,20 @@ export default class UserService {
         // check email duplicates
         await this.checkEmailDuplicate(newUser.email);
 
+        let errorResults: IError[] = [];
+
+        // check user_name exists
+        errorResults = await this.userRepository.checkFieldsExists(
+            [{ fieldName: 'user_name', fieldValue: model.user_name }],
+            errorResults,
+            'User',
+        );
+
+        // check all fields valid
+        if (errorResults.length) {
+            throw new HttpException(HttpStatus.BadRequest, '', errorResults);
+        }
+
         // handle encode password
         newUser.password = await encodePassword(model.password);
 
@@ -47,39 +68,6 @@ export default class UserService {
         session.startTransaction();
 
         try {
-            // create user in transaction
-            const createdUser = await this.userSchema.create([newUser], { session });
-            if (!createdUser || createdUser.length === 0) {
-                throw new HttpException(HttpStatus.Accepted, `Create User failed!`);
-            }
-
-            const resultUser: IUser = createdUser[0].toObject();
-
-            // create employee DTO and user info
-            const newEmployee = new CreateEmployeeDto(
-                resultUser._id,
-                '',
-                '',
-                resultUser.user_name,
-                '',
-                '',
-                '',
-                '',
-                '',
-                0,
-                '',
-                '',
-                '',
-                new Date(),
-                new Date(),
-            );
-            newEmployee.start_date = new Date();
-            newEmployee.updated_by = loggedUser?.id || null;
-
-            // create employee in transaction
-            const employee = new this.employeeSchema(newEmployee);
-            await employee.save({ session });
-
             // send mail for newUser with token
             if (!newUser.is_verified) {
                 let subject: string = 'Verify your email address';
@@ -102,6 +90,38 @@ export default class UserService {
                     throw new HttpException(HttpStatus.BadRequest, `Cannot send mail for ${newUser.email}`);
                 }
             }
+
+            // create user in transaction
+            const createdUser = await this.userSchema.create([newUser], { session });
+            if (!createdUser || createdUser.length === 0) {
+                throw new HttpException(HttpStatus.Accepted, `Create User failed!`);
+            }
+
+            const resultUser: IUser = createdUser[0].toObject();
+
+            // create employee DTO and user info
+            const newEmployee = new CreateEmployeeDto(
+                resultUser._id,
+                '',
+                '',
+                resultUser.user_name,
+                '',
+                '',
+                '',
+                '',
+                0,
+                '',
+                '',
+                '',
+                new Date(),
+                new Date(),
+            );
+            newEmployee.start_date = new Date();
+            newEmployee.updated_by = loggedUser?.id || null;
+
+            // create employee in transaction
+            const employee = new this.employeeSchema(newEmployee);
+            await employee.save({ session });
 
             // commit transaction
             await session.commitTransaction();
@@ -285,6 +305,20 @@ export default class UserService {
         if (userExists.email.toLowerCase().trim() !== model.email.toLowerCase().trim()) {
             // check email duplicates
             await this.checkEmailDuplicate(model.email);
+        }
+
+        let errorResults: IError[] = [];
+
+        // check user_name exists
+        errorResults = await this.userRepository.checkFieldsExists(
+            [{ fieldName: 'user_name', fieldValue: model.user_name }],
+            errorResults,
+            'User',
+        );
+
+        // check all fields valid
+        if (errorResults.length) {
+            throw new HttpException(HttpStatus.BadRequest, '', errorResults);
         }
 
         const updateData = {

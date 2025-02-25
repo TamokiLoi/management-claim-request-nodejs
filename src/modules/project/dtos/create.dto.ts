@@ -22,10 +22,10 @@ export default class CreateProjectDto extends BaseDto {
 
     public [ProjectFieldName.PROJECT_STATUS]: ProjectStatusType;
 
-    @IsString()
+    @IsNotEmpty()
     public [ProjectFieldName.PROJECT_START_DATE]: Date;
 
-    @IsString()
+    @IsNotEmpty()
     public [ProjectFieldName.PROJECT_END_DATE]: Date;
 
     public [ProjectFieldName.UPDATED_BY]: string | null;

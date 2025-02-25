@@ -1303,9 +1303,6 @@ paths:
                       contract_type:
                         type: string
                         example: ''
-                      account:
-                        type: string
-                        example: ''
                       address:
                         type: string
                         example: ''
@@ -1370,7 +1367,6 @@ paths:
                 - user_id
                 - job_rank
                 - contract_type
-                - account
                 - address
                 - phone
                 - full_name
@@ -1390,9 +1386,6 @@ paths:
                 contract_type:
                   type: string
                   example: THREE YEAR
-                account:
-                  type: string
-                  example: tamoki1110
                 address:
                   type: string
                   example: '123'
@@ -1449,9 +1442,6 @@ paths:
                       contract_type:
                         type: string
                         example: THREE YEAR
-                      account:
-                        type: string
-                        example: tamoki1110
                       address:
                         type: string
                         example: '123'
@@ -1796,6 +1786,50 @@ paths:
                           type: string
                           format: date-time
                           example: '2025-01-21T09:18:06.976Z'
+                        __v:
+                          type: integer
+                          example: 0
+  /api/projects/roles:
+    get:
+      summary: Get all roles in project
+      tags:
+        - Project
+      responses:
+        '200':
+          description: List of roles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: 678e035aa76e35135ab726ab
+                        job_rank:
+                          type: string
+                          example: TC3
+                        job_title:
+                          type: string
+                          example: Technical Consultant
+                        is_deleted:
+                          type: boolean
+                          example: false
+                        created_at:
+                          type: string
+                          format: date-time
+                          example: '2025-01-20T08:03:38.677Z'
+                        updated_at:
+                          type: string
+                          format: date-time
+                          example: '2025-01-20T08:03:38.677Z'
                         __v:
                           type: integer
                           example: 0

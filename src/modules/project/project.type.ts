@@ -10,6 +10,11 @@ export type ProjectRoleType =
     | BaseJobName.TEST
     | BaseJobName.TC;
 
+export type ProjectRoleListType = {
+    name: BaseJobName;
+    value: BaseJobName;
+};
+
 export type ProjectStatusType =
     | ProjectStatusEnum.NEW
     | ProjectStatusEnum.ACTIVE

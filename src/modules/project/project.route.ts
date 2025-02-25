@@ -27,6 +27,55 @@ export default class ProjectRoute implements IRoute {
 
         /**
          * @swagger
+         * /api/projects/roles:
+         *   get:
+         *     summary: Get all roles in project
+         *     tags: [Project]
+         *     responses:
+         *       200:
+         *         description: List of roles
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         *               properties:
+         *                 success:
+         *                   type: boolean
+         *                   example: true
+         *                 data:
+         *                   type: array
+         *                   items:
+         *                     type: object
+         *                     properties:
+         *                       _id:
+         *                         type: string
+         *                         example: "678e035aa76e35135ab726ab"
+         *                       job_rank:
+         *                         type: string
+         *                         example: "TC3"
+         *                       job_title:
+         *                         type: string
+         *                         example: "Technical Consultant"
+         *                       is_deleted:
+         *                         type: boolean
+         *                         example: false
+         *                       created_at:
+         *                         type: string
+         *                         format: date-time
+         *                         example: "2025-01-20T08:03:38.677Z"
+         *                       updated_at:
+         *                         type: string
+         *                         format: date-time
+         *                         example: "2025-01-20T08:03:38.677Z"
+         *                       __v:
+         *                         type: integer
+         *                         example: 0
+         */
+        // GET domain:/api/projects/roles -> Get all items roles in project
+        this.router.get(API_PATH.PROJECTS_ROLES, authMiddleWare(), this.projectController.getRolesInProject);
+
+        /**
+         * @swagger
          * /api/projects:
          *   post:
          *     summary: Create a new project

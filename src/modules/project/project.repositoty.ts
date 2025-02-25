@@ -73,9 +73,9 @@ export class ProjectRepository extends BaseRepository<IProject> {
     }
 
     public async updateStatus(model: UpdateProjectStatusDto): Promise<UpdateWriteOpResult> {
-        const { project_id, project_status, project_comment, updated_by } = model;
+        const { _id, project_status, project_comment, updated_by } = model;
         return this.projectSchema.updateOne(
-            { _id: project_id },
+            { _id },
             {
                 project_status,
                 project_comment,

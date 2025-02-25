@@ -11,6 +11,16 @@ export const ProjectJobList = [
     BaseJobName.TC,
 ];
 
+export const ProjectJobData = [
+    { name: BaseJobName.PM, value: BaseJobName.PM },
+    { name: BaseJobName.QA, value: BaseJobName.QA },
+    { name: BaseJobName.TL, value: BaseJobName.TL },
+    { name: BaseJobName.BA, value: BaseJobName.BA },
+    { name: BaseJobName.DEV, value: BaseJobName.DEV },
+    { name: BaseJobName.TEST, value: BaseJobName.TEST },
+    { name: BaseJobName.TC, value: BaseJobName.TC },
+];
+
 export const ProjectStatusList = [
     '',
     ProjectStatusEnum.NEW,

@@ -1,7 +1,6 @@
 export enum EmployeeFieldName {
     ID = '_id',
     USER_ID = 'user_id',
-    ACCOUNT = 'account',
     ADDRESS = 'address',
     PHONE = 'phone',
     FULL_NAME = 'full_name',

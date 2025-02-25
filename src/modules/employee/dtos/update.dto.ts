@@ -15,10 +15,6 @@ export default class UpdateEmployeeDto extends BaseDto {
 
     @IsNotEmpty()
     @IsString()
-    public [EmployeeFieldName.ACCOUNT]: string;
-
-    @IsNotEmpty()
-    @IsString()
     public [EmployeeFieldName.ADDRESS]: string;
 
     @IsNotEmpty()
@@ -59,7 +55,6 @@ export default class UpdateEmployeeDto extends BaseDto {
         user_id: string,
         job_rank: BaseJobRank,
         contract_type: string,
-        account: string,
         address: string,
         phone: string,
         full_name: string,
@@ -78,7 +73,6 @@ export default class UpdateEmployeeDto extends BaseDto {
         this.user_id = user_id;
         this.job_rank = job_rank;
         this.contract_type = contract_type;
-        this.account = account;
         this.address = address;
         this.phone = phone;
         this.full_name = full_name;

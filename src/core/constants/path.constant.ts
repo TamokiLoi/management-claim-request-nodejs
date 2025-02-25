@@ -49,6 +49,7 @@ export const API_PATH = {
     PROJECTS: '/api/projects',
     PROJECTS_SEARCH: '/api/projects/search',
     PROJECTS_CHANGE_STATUS: '/api/projects/change-status',
+    PROJECTS_ROLES: '/api/projects/roles',
 
     // claims
     CLAIMS: '/api/claims',

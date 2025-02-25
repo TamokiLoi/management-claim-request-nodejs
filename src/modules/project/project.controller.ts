@@ -7,6 +7,8 @@ import SearchPaginationProjectDto from './dtos/searchPagination.dto';
 import UpdateProjectStatusDto from './dtos/updateStatus.dto';
 import { IProject } from './project.interface';
 import ProjectService from './project.service';
+import { ProjectJobData } from './project.constant';
+import { ProjectRoleListType } from './project.type';
 
 export default class ProjectController extends BaseController<
     IProject,
@@ -27,6 +29,14 @@ export default class ProjectController extends BaseController<
             const model: UpdateProjectStatusDto = req.body;
             await this.projectService.updateStatus(model, req.user);
             res.status(HttpStatus.Success).json(formatResponse<null>(null));
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    public getRolesInProject = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            res.status(HttpStatus.Success).json(formatResponse<ProjectRoleListType[]>(ProjectJobData));
         } catch (error) {
             next(error);
         }

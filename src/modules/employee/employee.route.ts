@@ -62,9 +62,6 @@ export default class EmployeeRoute implements IRoute {
          *                     contract_type:
          *                       type: string
          *                       example: ""
-         *                     account:
-         *                       type: string
-         *                       example: ""
          *                     address:
          *                       type: string
          *                       example: ""
@@ -135,7 +132,6 @@ export default class EmployeeRoute implements IRoute {
          *               - user_id
          *               - job_rank
          *               - contract_type
-         *               - account
          *               - address
          *               - phone
          *               - full_name
@@ -155,9 +151,6 @@ export default class EmployeeRoute implements IRoute {
          *               contract_type:
          *                 type: string
          *                 example: "THREE YEAR"
-         *               account:
-         *                 type: string
-         *                 example: "tamoki1110"
          *               address:
          *                 type: string
          *                 example: "123"
@@ -214,9 +207,6 @@ export default class EmployeeRoute implements IRoute {
          *                     contract_type:
          *                       type: string
          *                       example: "THREE YEAR"
-         *                     account:
-         *                       type: string
-         *                       example: "tamoki1110"
          *                     address:
          *                       type: string
          *                       example: "123"

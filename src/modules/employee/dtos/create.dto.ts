@@ -12,9 +12,6 @@ export default class CreateEmployeeDto extends BaseDto {
     public [EmployeeFieldName.JOB_RANK]: BaseJobRank | string;
 
     @IsString()
-    public [EmployeeFieldName.ACCOUNT]: string;
-
-    @IsString()
     public [EmployeeFieldName.ADDRESS]: string;
 
     @IsString()
@@ -47,7 +44,6 @@ export default class CreateEmployeeDto extends BaseDto {
         user_id: string,
         job_rank: BaseJobRank | string = '',
         contract_type: string = '',
-        account: string = '',
         address: string = '',
         phone: string = '',
         full_name: string = '',
@@ -66,7 +62,6 @@ export default class CreateEmployeeDto extends BaseDto {
         this.user_id = user_id;
         this.job_rank = job_rank;
         this.contract_type = contract_type;
-        this.account = account;
         this.address = address;
         this.phone = phone;
         this.full_name = full_name;
