@@ -7,6 +7,7 @@ export interface IEmployee extends Document, IBase {
     [EmployeeFieldName.USER_ID]: string | null;
     [EmployeeFieldName.JOB_RANK]: string;
     [EmployeeFieldName.JOB_TITLE]: string;
+    [EmployeeFieldName.ACCOUNT]: string;
     [EmployeeFieldName.ADDRESS]: string;
     [EmployeeFieldName.PHONE]: string;
     [EmployeeFieldName.FULL_NAME]: string;

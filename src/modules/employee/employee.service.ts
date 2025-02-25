@@ -87,11 +87,14 @@ export default class EmployeeService {
     }
 
     private async validateEmployeeData(model: CreateEmployeeDto, errorResults: IError[]): Promise<IError[]> {
-        const { phone, salary } = model;
+        const { account, phone, salary } = model;
 
-        // check phone valid
+        // check account, phone valid
         errorResults = await this.employeeRepository.checkFieldsExists(
-            [{ fieldName: 'phone', fieldValue: model.phone }],
+            [
+                { fieldName: 'account', fieldValue: model.account },
+                { fieldName: 'phone', fieldValue: model.phone },
+            ],
             errorResults,
             'Employee',
         );

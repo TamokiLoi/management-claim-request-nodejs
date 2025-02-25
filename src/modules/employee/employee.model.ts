@@ -12,6 +12,7 @@ const EmployeeSchemaEntity: Schema<IEmployee> = new Schema({
     },
     [EmployeeFieldName.JOB_RANK]: { type: Schema.Types.String, ref: COLLECTION_NAME.JOB },
     [EmployeeFieldName.CONTRACT_TYPE]: { type: Schema.Types.String, ref: COLLECTION_NAME.CONTRACT },
+    [EmployeeFieldName.ACCOUNT]: { type: String, unique: true, index: true },
     [EmployeeFieldName.ADDRESS]: { type: String },
     [EmployeeFieldName.PHONE]: { type: String },
     [EmployeeFieldName.FULL_NAME]: { type: String },

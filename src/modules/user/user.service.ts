@@ -68,28 +68,10 @@ export default class UserService {
         session.startTransaction();
 
         try {
-            // send mail for newUser with token
-            if (!newUser.is_verified) {
-                let subject: string = 'Verify your email address';
-                let content: string = `Hello, ${newUser.user_name}.`;
-
-                // create token verification and assign token to newUser
-                const tokenData = createTokenVerifiedUser();
-                newUser.verification_token = tokenData.verification_token;
-                newUser.verification_token_expires = tokenData.verification_token_expires;
-                const domain = process.env.DOMAIN_FE;
-                content = `${content}\nPlease click the following link to verify your email address:\n${domain}/verify-email/${tokenData.verification_token}`;
-
-                const sendMailResult = await sendMail({
-                    toMail: newUser.email,
-                    subject: subject,
-                    content: content,
-                });
-
-                if (!sendMailResult) {
-                    throw new HttpException(HttpStatus.BadRequest, `Cannot send mail for ${newUser.email}`);
-                }
-            }
+            // create token verification and assign token to newUser
+            const tokenData = createTokenVerifiedUser();
+            newUser.verification_token = tokenData.verification_token;
+            newUser.verification_token_expires = tokenData.verification_token_expires;
 
             // create user in transaction
             const createdUser = await this.userSchema.create([newUser], { session });
@@ -109,6 +91,7 @@ export default class UserService {
                 '',
                 '',
                 '',
+                '',
                 0,
                 '',
                 '',
@@ -122,6 +105,25 @@ export default class UserService {
             // create employee in transaction
             const employee = new this.employeeSchema(newEmployee);
             await employee.save({ session });
+
+            // send mail for newUser with token
+            if (!newUser.is_verified) {
+                let subject: string = 'Verify your email address';
+                let content: string = `Hello, ${newUser.user_name}.`;
+
+                const domain = process.env.DOMAIN_FE;
+                content = `${content}\nPlease click the following link to verify your email address:\n${domain}/verify-email/${tokenData.verification_token}`;
+
+                const sendMailResult = await sendMail({
+                    toMail: newUser.email,
+                    subject: subject,
+                    content: content,
+                });
+
+                if (!sendMailResult) {
+                    throw new HttpException(HttpStatus.BadRequest, `Cannot send mail for ${newUser.email}`);
+                }
+            }
 
             // commit transaction
             await session.commitTransaction();
