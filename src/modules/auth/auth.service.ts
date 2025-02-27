@@ -139,6 +139,10 @@ export default class AuthService {
             throw new HttpException(HttpStatus.BadRequest, `User with mail: ${email} is not exists.`);
         }
 
+        if (email === 'admin@gmail.com') {
+            throw new HttpException(HttpStatus.BadRequest, 'Cannot reset password for admin account default.');
+        }
+
         // handle encode password
         const generateRandomPassword = this.generateRandomPassword(10);
 

@@ -25,17 +25,17 @@ export default class ContractRoute implements IRoute {
          * @swagger
          * /api/contracts/get-all:
          *   get:
-         *     summary: Get all contracts or by keyword
+         *     summary: Get all contracts or filter by keyword
          *     tags: [Contract]
          *     parameters:
          *       - in: query
          *         name: keyword
          *         schema:
          *           type: string
-         *         description: The keyword related with contract_type and description
+         *         description: The keyword related to contract_type and description
          *     responses:
          *       200:
-         *         description: List of contract
+         *         description: List of contracts
          *         content:
          *           application/json:
          *             schema:
@@ -51,24 +51,24 @@ export default class ContractRoute implements IRoute {
          *                     properties:
          *                       _id:
          *                         type: string
-         *                         example: "678e035aa76e35135ab726ab"
-         *                       job_rank:
+         *                         example: "678f692a144cbc1e94917e72"
+         *                       contract_type:
          *                         type: string
-         *                         example: "TC3"
-         *                       job_title:
+         *                         example: "INDEFINITE"
+         *                       description:
          *                         type: string
-         *                         example: "Technical Consultant"
+         *                         example: "Contract no limit time."
          *                       is_deleted:
          *                         type: boolean
          *                         example: false
          *                       created_at:
          *                         type: string
          *                         format: date-time
-         *                         example: "2025-01-20T08:03:38.677Z"
+         *                         example: "2025-01-21T09:30:18.566Z"
          *                       updated_at:
          *                         type: string
          *                         format: date-time
-         *                         example: "2025-01-20T08:03:38.677Z"
+         *                         example: "2025-01-21T09:30:18.566Z"
          *                       __v:
          *                         type: integer
          *                         example: 0

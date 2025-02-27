@@ -25,14 +25,14 @@ export default class DepartmentRoute implements IRoute {
          * @swagger
          * /api/departments/get-all:
          *   get:
-         *     summary: Get all department or by keyword
+         *     summary: Get all departments or filter by keyword
          *     tags: [Department]
          *     parameters:
          *       - in: query
          *         name: keyword
          *         schema:
          *           type: string
-         *         description: The keyword related with department_code and department_name
+         *         description: The keyword related to department_code and department_name
          *     responses:
          *       200:
          *         description: List of departments
@@ -51,24 +51,27 @@ export default class DepartmentRoute implements IRoute {
          *                     properties:
          *                       _id:
          *                         type: string
-         *                         example: "678e035aa76e35135ab726ab"
-         *                       job_rank:
+         *                         example: "67b6e14211fa7aaa835430a7"
+         *                       department_code:
          *                         type: string
-         *                         example: "TC3"
-         *                       job_title:
+         *                         example: "DE04"
+         *                       department_name:
          *                         type: string
-         *                         example: "Technical Consultant"
+         *                         example: "Department 04"
+         *                       description:
+         *                         type: string
+         *                         example: "Department 04"
          *                       is_deleted:
          *                         type: boolean
          *                         example: false
          *                       created_at:
          *                         type: string
          *                         format: date-time
-         *                         example: "2025-01-20T08:03:38.677Z"
+         *                         example: "2025-02-20T08:01:06.177Z"
          *                       updated_at:
          *                         type: string
          *                         format: date-time
-         *                         example: "2025-01-20T08:03:38.677Z"
+         *                         example: "2025-02-20T08:01:06.177Z"
          *                       __v:
          *                         type: integer
          *                         example: 0
