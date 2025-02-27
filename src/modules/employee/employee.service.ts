@@ -36,8 +36,8 @@ export default class EmployeeService {
         return createdItem;
     }
 
-    public async getItem(id: string): Promise<IEmployee> {
-        const item = await this.employeeSchema.findOne({ _id: id, is_deleted: false }).lean();
+    public async getItem(user_id: string): Promise<IEmployee> {
+        const item = await this.employeeSchema.findOne({ user_id, is_deleted: false }).lean();
         if (!item) {
             throw new HttpException(HttpStatus.BadRequest, `Employee info is not exists.`);
         }
@@ -92,8 +92,8 @@ export default class EmployeeService {
         // check account, phone valid
         errorResults = await this.employeeRepository.checkFieldsExists(
             [
-                { fieldName: 'account', fieldValue: model.account },
-                { fieldName: 'phone', fieldValue: model.phone },
+                { fieldName: 'account', fieldValue: account },
+                { fieldName: 'phone', fieldValue: phone },
             ],
             errorResults,
             'Employee',

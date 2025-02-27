@@ -27,7 +27,7 @@ export default class EmployeeRoute implements IRoute {
          * @swagger
          * /api/employees/{id}:
          *   get:
-         *     summary: Get employee by ID
+         *     summary: Get employee by UserID
          *     tags: [Employee]
          *     parameters:
          *       - in: path
@@ -35,7 +35,7 @@ export default class EmployeeRoute implements IRoute {
          *         schema:
          *           type: string
          *         required: true
-         *         description: The employee ID
+         *         description: The user ID
          *     responses:
          *       200:
          *         description: Employee data
@@ -121,7 +121,7 @@ export default class EmployeeRoute implements IRoute {
          *         schema:
          *           type: string
          *         required: true
-         *         description: The employee ID
+         *         description: The user ID
          *     requestBody:
          *       required: true
          *       content:
