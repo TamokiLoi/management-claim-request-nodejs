@@ -217,6 +217,10 @@ export default class UserService {
         // check updateUser exits
         const updateUser = await this.getItem(userId, false);
 
+        if (updateUser.email === 'admin@gmail.com') {
+            throw new HttpException(HttpStatus.BadRequest, 'Cannot change password for admin account default.');
+        }
+
         // check old_password match
         if (model.old_password) {
             const isMatchPassword = await bcryptjs.compare(model.old_password, updateUser.password!);
