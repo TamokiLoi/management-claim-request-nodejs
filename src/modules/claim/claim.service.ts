@@ -28,6 +28,12 @@ export default class ClaimService {
         data.claim_status = ClaimStatusEnum.DRAFT;
         data.user_id = loggedUser.id;
 
+        const isOverlapping = await this.claimRepository.findItemByRangeDate(data);
+
+        if (isOverlapping) {
+            throw new HttpException(HttpStatus.BadRequest, 'Claim date range conflicts with an existing claim!');
+        }
+
         // create new item
         const newItem = await this.claimRepository.create(data);
         if (!newItem) {
@@ -64,6 +70,12 @@ export default class ClaimService {
         // validate claim data
         await this.validClaimData(data, loggedUser);
         const filteredData = omit(data, ['claim_status', 'user_id']);
+
+        const isOverlapping = await this.claimRepository.findItemByRangeDate(data);
+
+        if (isOverlapping) {
+            throw new HttpException(HttpStatus.BadRequest, 'Claim date range conflicts with an existing claim!');
+        }
 
         // update item
         const updateItem = await this.claimRepository.update(id, filteredData);

@@ -59,7 +59,7 @@ export default class ClaimController extends BaseController<
     public getItemsForFinance = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const model: SearchPaginationClaimDto = req.body;
-            model.searchCondition.claim_status = ClaimStatusEnum.PAID;
+            model.searchCondition.claim_status = ClaimStatusEnum.APPROVED;
             const result = await this.claimService.getItems(model);
             res.status(HttpStatus.Success).json(formatResponse<SearchPaginationResponseModel<IClaim>>(result));
         } catch (error) {

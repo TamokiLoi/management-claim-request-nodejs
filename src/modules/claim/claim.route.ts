@@ -503,7 +503,7 @@ export default class ClaimRoute implements IRoute {
             API_PATH.CLAIMS_APPROVAL_SEARCH,
             authMiddleWare([BaseRoleCode.A003]),
             validationMiddleware(SearchPaginationClaimDto),
-            this.claimController.getItemsForClaimer,
+            this.claimController.getItemsForApproval,
         );
 
         /**
@@ -627,9 +627,9 @@ export default class ClaimRoute implements IRoute {
         // POST domain:/api/claims/finance-search -> Get items by conditions for finance
         this.router.post(
             API_PATH.CLAIMS_FINANCE_SEARCH,
-            authMiddleWare([BaseRoleCode.A002]),
+            authMiddleWare([BaseRoleCode.A001, BaseRoleCode.A002]),
             validationMiddleware(SearchPaginationClaimDto),
-            this.claimController.getItemsForClaimer,
+            this.claimController.getItemsForFinance,
         );
 
         /**

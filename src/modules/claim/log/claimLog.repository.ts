@@ -42,7 +42,7 @@ export class ClaimLogRepository extends BaseRepository<IClaimLog> {
                     },
                 },
                 { $unwind: { path: '$claim_info', preserveNullAndEmptyArrays: true } },
-                { $sort: { updated_at: -1 } },
+                { $sort: { created_at: -1 }},
                 { $skip: (pageNum - 1) * pageSize },
                 { $limit: pageSize },
                 {

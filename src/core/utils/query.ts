@@ -1,4 +1,7 @@
-export const formatItemsQuery = (query: Record<string, any>, items: Record<string, any>): Record<string, any> => {
+export const formatItemsQuery = (
+    query: Partial<Record<string, unknown>>,
+    items: Partial<Record<string, unknown>>,
+): Partial<Record<string, unknown>> => {
     for (const key in items) {
         if (items[key] || items[key] === false) {
             query = {

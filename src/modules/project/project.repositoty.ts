@@ -21,7 +21,7 @@ export class ProjectRepository extends BaseRepository<IProject> {
         const { keyword, project_status, project_start_date, project_end_date, user_id, is_deleted } = searchCondition;
         const { pageNum, pageSize } = model.pageInfo;
 
-        let listQuery: Record<string, any> = {};
+        let listQuery: Partial<Record<string, unknown>> = {};
         if (keyword) {
             const keywordValue = keyword.trim();
             listQuery = {
@@ -49,7 +49,7 @@ export class ProjectRepository extends BaseRepository<IProject> {
             // Fetch data with pagination
             const resultQuery = await this.projectSchema.aggregate([
                 ...this.getProjectAggregationPipeline(listQuery),
-                { $sort: { updated_at: -1 } },
+                { $sort: { created_at: -1 }},
                 { $skip: (pageNum - 1) * pageSize },
                 { $limit: pageSize },
             ]);
@@ -86,7 +86,7 @@ export class ProjectRepository extends BaseRepository<IProject> {
     }
 
     // get full information about project with: userInfo, employeeInfo
-    private getProjectAggregationPipeline = (query: Record<string, any>) => {
+    private getProjectAggregationPipeline = (query: Partial<Record<string, unknown>>) => {
         return [
             { $match: query },
             { $unwind: { path: '$project_members', preserveNullAndEmptyArrays: true } },

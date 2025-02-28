@@ -8,6 +8,9 @@ import ClaimSchema from './claim.model';
 import SearchClaimDto from './dto/search.dto';
 import SearchPaginationClaimDto from './dto/searchPagination.dto';
 import UpdateClaimStatusDto from './dto/updateStatus.dto';
+import CreateClaimDto from './dto/create.dto';
+import UpdateClaimDto from './dto/update.dto';
+import { ClaimFieldName, ClaimStatusEnum } from './claim.enum';
 
 export class ClaimRepository extends BaseRepository<IClaim> {
     private claimSchema = ClaimSchema;
@@ -22,7 +25,7 @@ export class ClaimRepository extends BaseRepository<IClaim> {
             searchCondition;
         const { pageNum, pageSize } = model.pageInfo;
 
-        let listQuery: Record<string, any> = {};
+        let listQuery: Partial<Record<string, unknown>> = {};
         if (keyword) {
             const keywordValue = keyword.trim();
             listQuery = {
@@ -86,7 +89,7 @@ export class ClaimRepository extends BaseRepository<IClaim> {
                     },
                 },
                 { $unwind: { path: '$project_info', preserveNullAndEmptyArrays: true } },
-                { $sort: { updated_at: -1 } },
+                { $sort: { created_at: -1 }},
                 { $skip: (pageNum - 1) * pageSize },
                 { $limit: pageSize },
                 {
@@ -155,5 +158,25 @@ export class ClaimRepository extends BaseRepository<IClaim> {
                 updated_at: new Date(),
             },
         );
+    }
+
+    public async findItemByRangeDate(data: CreateClaimDto | UpdateClaimDto): Promise<IClaim | null> {
+        const { user_id, claim_start_date, claim_end_date } = data;
+
+        const claimStartDate = new Date(claim_start_date);
+        const claimEndDate = new Date(claim_end_date);
+
+        const query: Partial<Record<string, unknown>> = {
+            [ClaimFieldName.USER_ID]: user_id,
+            [ClaimFieldName.CLAIM_STATUS]: { $ne: ClaimStatusEnum.CANCELED },
+            [ClaimFieldName.CLAIM_START_DATE]: { $lt: claimEndDate },
+            [ClaimFieldName.CLAIM_END_DATE]: { $gt: claimStartDate },
+        };
+
+        if ('_id' in data && data._id) {
+            query._id = { $ne: data._id };
+        }
+
+        return this.claimSchema.findOne(query);
     }
 }
