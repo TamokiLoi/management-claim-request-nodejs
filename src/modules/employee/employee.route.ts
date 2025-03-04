@@ -121,7 +121,7 @@ export default class EmployeeRoute implements IRoute {
          *         schema:
          *           type: string
          *         required: true
-         *         description: The user ID
+         *         description: The employee ID
          *     requestBody:
          *       required: true
          *       content:

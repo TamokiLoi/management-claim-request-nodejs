@@ -336,7 +336,7 @@ export default class ProjectRoute implements IRoute {
         // POST domain:/api/projects/search -> Get items by conditions
         this.router.post(
             API_PATH.PROJECTS_SEARCH,
-            authMiddleWare([BaseRoleCode.A001]),
+            authMiddleWare(),
             validationMiddleware(SearchPaginationProjectDto),
             this.projectController.getItems,
         );
