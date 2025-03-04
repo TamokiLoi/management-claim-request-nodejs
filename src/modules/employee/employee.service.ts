@@ -46,14 +46,14 @@ export default class EmployeeService {
 
     public async update(id: string, model: CreateEmployeeDto, loggedUser: DataStoredInToken): Promise<IEmployee> {
         // check item exists
-        await this.getItem(id);
+        const item = await this.getItem(id);
 
         await checkEmptyObject(model);
 
-        const { user_id, job_rank, contract_type } = model;
+        const { job_rank, contract_type } = model;
 
         // Check user exists
-        await this.userService.getItem(user_id);
+        await this.userService.getItem(id);
 
         // Check job_rank exists
         await this.jobService.getItemByJobRank(job_rank);
@@ -64,7 +64,7 @@ export default class EmployeeService {
         let errorResults: IError[] = [];
 
         // check validation data in model
-        errorResults = await this.validateEmployeeData(model, errorResults);
+        errorResults = await this.validateEmployeeData(item, model, errorResults);
 
         // check all fields valid
         if (errorResults.length) {
@@ -73,11 +73,12 @@ export default class EmployeeService {
 
         const updateData = {
             ...model,
+            user_id: id,
             updated_by: loggedUser.id,
             updated_at: new Date(),
         };
 
-        const updatedItem = await this.employeeSchema.updateOne({ _id: id }, updateData);
+        const updatedItem = await this.employeeSchema.updateOne({ _id: item._id }, updateData);
 
         if (!updatedItem.acknowledged) {
             throw new HttpException(HttpStatus.BadRequest, 'Update employee info failed!');
@@ -86,18 +87,26 @@ export default class EmployeeService {
         return this.getItem(id);
     }
 
-    private async validateEmployeeData(model: CreateEmployeeDto, errorResults: IError[]): Promise<IError[]> {
+    private async validateEmployeeData(itemExist: IEmployee, model: CreateEmployeeDto, errorResults: IError[]): Promise<IError[]> {
         const { account, phone, salary } = model;
 
-        // check account, phone valid
-        errorResults = await this.employeeRepository.checkFieldsExists(
-            [
-                { fieldName: 'account', fieldValue: account },
-                { fieldName: 'phone', fieldValue: phone },
-            ],
-            errorResults,
-            'Employee',
-        );
+        // check account valid
+        if (itemExist.account !== model.account) {
+            errorResults = await this.employeeRepository.checkFieldsExists(
+                [{ fieldName: 'account', fieldValue: model.account }],
+                errorResults,
+                'Employee',
+            );
+        }
+
+        // check phone valid
+        if (itemExist.phone !== model.phone) {
+            errorResults = await this.employeeRepository.checkFieldsExists(
+                [{ fieldName: 'phone', fieldValue: model.phone }],
+                errorResults,
+                'Employee',
+            );
+        }
 
         // Check salary range
         if (salary < 3000000) {

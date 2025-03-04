@@ -12,7 +12,7 @@ export interface IEmployee extends Document, IBase {
     [EmployeeFieldName.PHONE]: string;
     [EmployeeFieldName.FULL_NAME]: string;
     [EmployeeFieldName.AVATAR_URL]: string;
-    [EmployeeFieldName.DEPARTMENT_NAME]: string;
+    [EmployeeFieldName.DEPARTMENT_CODE]: string;
     [EmployeeFieldName.SALARY]: number;
     [EmployeeFieldName.CONTRACT_TYPE]: string;
     [EmployeeFieldName.START_DATE]: Date;

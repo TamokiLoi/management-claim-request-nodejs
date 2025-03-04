@@ -17,7 +17,7 @@ const EmployeeSchemaEntity: Schema<IEmployee> = new Schema({
     [EmployeeFieldName.PHONE]: { type: String },
     [EmployeeFieldName.FULL_NAME]: { type: String },
     [EmployeeFieldName.AVATAR_URL]: { type: String },
-    [EmployeeFieldName.DEPARTMENT_NAME]: { type: String },
+    [EmployeeFieldName.DEPARTMENT_CODE]: { type: String },
     [EmployeeFieldName.SALARY]: { type: Number },
     [EmployeeFieldName.START_DATE]: { type: Date },
     [EmployeeFieldName.END_DATE]: { type: Date },

@@ -5,7 +5,6 @@ import { BaseJobRank } from '../../../core/enums';
 import { EmployeeFieldName } from '../employee.enum';
 
 export default class UpdateEmployeeDto extends BaseDto {
-    @IsNotEmpty()
     @IsString()
     public [EmployeeFieldName.USER_ID]: string;
 
@@ -31,7 +30,7 @@ export default class UpdateEmployeeDto extends BaseDto {
 
     @IsNotEmpty()
     @IsString()
-    public [EmployeeFieldName.DEPARTMENT_NAME]: string;
+    public [EmployeeFieldName.DEPARTMENT_CODE]: string;
 
     @IsNotEmpty()
     @IsNumber()
@@ -59,7 +58,7 @@ export default class UpdateEmployeeDto extends BaseDto {
         phone: string,
         full_name: string,
         avatar_url: string,
-        department_name: string,
+        department_code: string,
         salary: number,
         start_date: Date | string,
         end_date: Date | string,
@@ -77,7 +76,7 @@ export default class UpdateEmployeeDto extends BaseDto {
         this.phone = phone;
         this.full_name = full_name;
         this.avatar_url = avatar_url;
-        this.department_name = department_name;
+        this.department_code = department_code;
         this.salary = salary;
         this.start_date = start_date;
         this.end_date = end_date;

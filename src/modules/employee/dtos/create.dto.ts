@@ -27,7 +27,7 @@ export default class CreateEmployeeDto extends BaseDto {
     public [EmployeeFieldName.AVATAR_URL]: string;
 
     @IsString()
-    public [EmployeeFieldName.DEPARTMENT_NAME]: string;
+    public [EmployeeFieldName.DEPARTMENT_CODE]: string;
 
     @IsNumber()
     public [EmployeeFieldName.SALARY]: number;
@@ -52,7 +52,7 @@ export default class CreateEmployeeDto extends BaseDto {
         phone: string = '',
         full_name: string = '',
         avatar_url: string = '',
-        department_name: string = '',
+        department_code: string = '',
         salary: number = 0,
         start_date: Date | string = new Date(),
         end_date: Date | string = new Date(),
@@ -71,7 +71,7 @@ export default class CreateEmployeeDto extends BaseDto {
         this.phone = phone;
         this.full_name = full_name;
         this.avatar_url = avatar_url;
-        this.department_name = department_name;
+        this.department_code = department_code;
         this.salary = salary;
         this.start_date = start_date;
         this.end_date = end_date;

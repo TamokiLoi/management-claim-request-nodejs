@@ -74,7 +74,7 @@ export default class EmployeeRoute implements IRoute {
          *                     avatar_url:
          *                       type: string
          *                       example: ""
-         *                     department_name:
+         *                     department_code:
          *                       type: string
          *                       example: ""
          *                     salary:
@@ -121,7 +121,7 @@ export default class EmployeeRoute implements IRoute {
          *         schema:
          *           type: string
          *         required: true
-         *         description: The employee ID
+         *         description: The user ID
          *     requestBody:
          *       required: true
          *       content:
@@ -129,7 +129,6 @@ export default class EmployeeRoute implements IRoute {
          *           schema:
          *             type: object
          *             required:
-         *               - user_id
          *               - job_rank
          *               - contract_type
          *               - account
@@ -137,7 +136,7 @@ export default class EmployeeRoute implements IRoute {
          *               - phone
          *               - full_name
          *               - avatar_url
-         *               - department_name
+         *               - department_code
          *               - salary
          *               - start_date
          *               - end_date
@@ -168,7 +167,7 @@ export default class EmployeeRoute implements IRoute {
          *                 type: string
          *                 format: uri
          *                 example: "https://picsum.photos/200/300"
-         *               department_name:
+         *               department_code:
          *                 type: string
          *                 example: "CMS"
          *               salary:
@@ -227,7 +226,7 @@ export default class EmployeeRoute implements IRoute {
          *                       type: string
          *                       format: uri
          *                       example: "https://picsum.photos/200/300"
-         *                     department_name:
+         *                     department_code:
          *                       type: string
          *                       example: "CMS"
          *                     salary:

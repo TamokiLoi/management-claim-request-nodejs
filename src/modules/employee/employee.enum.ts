@@ -6,7 +6,7 @@ export enum EmployeeFieldName {
     PHONE = 'phone',
     FULL_NAME = 'full_name',
     AVATAR_URL = 'avatar_url',
-    DEPARTMENT_NAME = 'department_name',
+    DEPARTMENT_CODE = 'department_code',
     JOB_RANK = 'job_rank',
     JOB_TITLE = 'job_title',
     SALARY = 'salary',
