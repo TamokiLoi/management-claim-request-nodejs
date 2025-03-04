@@ -129,6 +129,7 @@ export class ClaimRepository extends BaseRepository<IClaim> {
                         claim_name: { $first: '$claim_name' },
                         claim_start_date: { $first: '$claim_start_date' },
                         claim_end_date: { $first: '$claim_end_date' },
+                        total_work_time: { $first: '$total_work_time' },
                         claim_status: { $first: '$claim_status' },
                         is_deleted: { $first: '$is_deleted' },
                         created_at: { $first: '$created_at' },
