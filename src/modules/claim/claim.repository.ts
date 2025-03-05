@@ -11,9 +11,12 @@ import UpdateClaimStatusDto from './dto/updateStatus.dto';
 import CreateClaimDto from './dto/create.dto';
 import UpdateClaimDto from './dto/update.dto';
 import { ClaimFieldName, ClaimStatusEnum } from './claim.enum';
+import { ProjectSchema } from '../project';
+import { IProject } from '../project/project.interface';
 
 export class ClaimRepository extends BaseRepository<IClaim> {
     private claimSchema = ClaimSchema;
+    private projectSchema = ProjectSchema;
 
     constructor() {
         super(ClaimSchema);
@@ -89,7 +92,7 @@ export class ClaimRepository extends BaseRepository<IClaim> {
                     },
                 },
                 { $unwind: { path: '$project_info', preserveNullAndEmptyArrays: true } },
-                { $sort: { created_at: -1 }},
+                { $sort: { created_at: -1 } },
                 { $skip: (pageNum - 1) * pageSize },
                 { $limit: pageSize },
                 {
@@ -179,5 +182,14 @@ export class ClaimRepository extends BaseRepository<IClaim> {
         }
 
         return this.claimSchema.findOne(query);
+    }
+
+    public async checkUserExistsInProject(user_id: string, project_id: string): Promise<boolean> {
+        const result = await this.projectSchema.exists({
+            _id: new mongoose.Types.ObjectId(project_id),
+            'project_members.user_id': new mongoose.Types.ObjectId(user_id),
+        });
+
+        return !!result;
     }
 }

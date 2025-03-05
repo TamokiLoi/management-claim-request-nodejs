@@ -149,6 +149,15 @@ export default class ClaimService {
         if (approval_id === loggedUser.id) {
             throw new HttpException(HttpStatus.BadRequest, 'You cannot request approval for your own claim.');
         }
+
+        // check user in project
+        const isUserExistInProject = await this.claimRepository.checkUserExistsInProject(
+            loggedUser.id,
+            project_id as string,
+        );
+        if (!isUserExistInProject) {
+            throw new HttpException(HttpStatus.BadRequest, 'You can only select projects where you are a member!');
+        }
     }
 
     private validClaimDataStatus(
