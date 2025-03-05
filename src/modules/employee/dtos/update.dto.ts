@@ -47,7 +47,6 @@ export default class UpdateEmployeeDto extends BaseDto {
     @IsString()
     public [EmployeeFieldName.END_DATE]: Date | string;
 
-    @IsString()
     public [EmployeeFieldName.UPDATED_BY]: string;
 
     constructor(
