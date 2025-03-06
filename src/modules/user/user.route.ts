@@ -113,7 +113,7 @@ export default class UserRoute implements IRoute {
         // POST domain:/api/users -> Create user
         this.router.post(
             this.path,
-            authMiddleWare([BaseRoleCode.A001]),
+            authMiddleWare(),
             validationMiddleware(CreateUserDto),
             this.userController.create,
         );

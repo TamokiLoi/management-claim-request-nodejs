@@ -261,7 +261,7 @@ export default class EmployeeRoute implements IRoute {
         // PUT domain:/api/employees/:id -> Update employee
         this.router.put(
             `${this.path}/:id`,
-            authMiddleWare([BaseRoleCode.A001, BaseRoleCode.A003, BaseRoleCode.A004]),
+            authMiddleWare(),
             validationMiddleware(UpdateEmployeeDto),
             this.employeeController.update,
         );

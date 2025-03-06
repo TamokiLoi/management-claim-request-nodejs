@@ -926,48 +926,36 @@ paths:
             schema:
               type: object
               required:
-                - project_name
-                - project_code
-                - project_department
-                - project_description
-                - project_start_date
-                - project_end_date
-                - project_members
+                - project_id
+                - approval_id
+                - claim_name
+                - claim_start_date
+                - claim_end_date
+                - total_work_time
               properties:
-                project_name:
+                _id:
                   type: string
-                  example: FMJFA Family Mart 1
-                project_code:
+                  example: 67b43d15f4d1e49e5326bb82
+                project_id:
                   type: string
-                  example: FMJFA
-                project_department:
+                  example: 67b43d15f4d1e49e5326bb8e
+                approval_id:
                   type: string
-                  example: CMS
-                project_description:
+                  example: 67b2fd17f6afc068678f14b5
+                claim_name:
                   type: string
-                  example: '13123123123'
-                project_start_date:
-                  type: string
-                  format: date-time
-                  example: '2025-02-07T07:47:06.175Z'
-                project_end_date:
+                  example: Request OT
+                claim_start_date:
                   type: string
                   format: date-time
-                  example: '2025-02-07T07:47:06.175Z'
-                project_members:
-                  type: array
-                  items:
-                    type: object
-                    required:
-                      - user_id
-                      - project_role
-                    properties:
-                      user_id:
-                        type: string
-                        example: 67b2fd17f6afc068678f14b5
-                      project_role:
-                        type: string
-                        example: Claim Manager
+                  example: '2025-02-11T08:48:36.083Z'
+                claim_end_date:
+                  type: string
+                  format: date-time
+                  example: '2025-02-13T08:48:36.083Z'
+                total_work_time:
+                  type: number
+                  example: 8
       responses:
         '200':
           description: Claim updated successfully
@@ -982,57 +970,46 @@ paths:
                   data:
                     type: object
                     properties:
-                      _id:
-                        type: string
-                        example: 67b3007bd00f73f03c3541fd
-                      project_code:
-                        type: string
-                        example: FMJFA
-                      project_name:
-                        type: string
-                        example: FMJFA Family Mart 1
-                      project_department:
-                        type: string
-                        example: CMS
-                      project_description:
-                        type: string
-                        example: '13123123123'
-                      project_members:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            user_id:
-                              type: string
-                              example: 67b2fd17f6afc068678f14b5
-                            project_role:
-                              type: string
-                              example: Claim Manager
-                            _id:
-                              type: string
-                              example: 67b305cd374bba420c7063c2
-                      project_start_date:
-                        type: string
-                        format: date-time
-                        example: '2025-02-07T07:47:06.175Z'
-                      project_end_date:
-                        type: string
-                        format: date-time
-                        example: '2025-02-07T07:47:06.175Z'
-                      updated_by:
+                      user_id:
                         type: string
                         example: 678e17134e6e72ce391d0946
+                      project_id:
+                        type: string
+                        example: 67b43d15f4d1e49e5326bb8e
+                      approval_id:
+                        type: string
+                        example: 67b2fd17f6afc068678f14b5
+                      claim_name:
+                        type: string
+                        example: Request OT
+                      claim_status:
+                        type: string
+                        example: Draft
+                      claim_start_date:
+                        type: string
+                        format: date-time
+                        example: '2025-02-11T08:48:36.083Z'
+                      claim_end_date:
+                        type: string
+                        format: date-time
+                        example: '2025-02-13T08:48:36.083Z'
+                      total_work_time:
+                        type: number
+                        example: 8
                       is_deleted:
                         type: boolean
                         example: false
+                      _id:
+                        type: string
+                        example: 67b93c4db74349d8a681d145
                       created_at:
                         type: string
                         format: date-time
-                        example: '2025-02-17T09:25:15.577Z'
+                        example: '2025-02-22T02:54:05.055Z'
                       updated_at:
                         type: string
                         format: date-time
-                        example: '2025-02-17T09:47:57.935Z'
+                        example: '2025-02-22T02:54:05.055Z'
                       __v:
                         type: number
                         example: 0
