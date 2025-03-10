@@ -59,9 +59,6 @@ export default class ClaimRoute implements IRoute {
          *               total_work_time:
          *                 type: number
          *                 example: 8
-         *               remark:
-         *                 type: string
-         *                 example: ""
          *     responses:
          *       200:
          *         description: Claim created successfully
@@ -191,60 +188,143 @@ export default class ClaimRoute implements IRoute {
          *                         properties:
          *                           _id:
          *                             type: string
-         *                             example: "67b93c4db74349d8a681d145"
          *                           staff_id:
          *                             type: string
-         *                             example: "67b43ca2f4d1e49e5326bb84"
          *                           staff_name:
          *                             type: string
-         *                             example: "tamoki1113"
          *                           staff_email:
          *                             type: string
-         *                             example: "tamo.ki1110@gmail.com"
          *                           staff_role:
          *                             type: string
          *                             nullable: true
-         *                             example: null
+         *                           employee_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               user_id:
+         *                                 type: string
+         *                               job_rank:
+         *                                 type: string
+         *                               contract_type:
+         *                                 type: string
+         *                               account:
+         *                                 type: string
+         *                               address:
+         *                                 type: string
+         *                               phone:
+         *                                 type: string
+         *                               full_name:
+         *                                 type: string
+         *                               avatar_url:
+         *                                 type: string
+         *                               department_name:
+         *                                 type: string
+         *                               salary:
+         *                                 type: number
+         *                               start_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               end_date:
+         *                                 type: string
+         *                                 nullable: true
+         *                               updated_by:
+         *                                 type: string
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               is_deleted:
+         *                                 type: boolean
+         *                           approval_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               email:
+         *                                 type: string
+         *                               user_name:
+         *                                 type: string
+         *                               role_code:
+         *                                 type: string
+         *                               is_verified:
+         *                                 type: boolean
+         *                               is_blocked:
+         *                                 type: boolean
+         *                               is_deleted:
+         *                                 type: boolean
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                           project_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               project_name:
+         *                                 type: string
+         *                               project_code:
+         *                                 type: string
+         *                               project_department:
+         *                                 type: string
+         *                               project_description:
+         *                                 type: string
+         *                               project_members:
+         *                                 type: array
+         *                                 items:
+         *                                   type: object
+         *                                   properties:
+         *                                     user_id:
+         *                                       type: string
+         *                                     project_role:
+         *                                       type: string
+         *                                     _id:
+         *                                       type: string
+         *                               project_status:
+         *                                 type: string
+         *                               project_start_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               project_end_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_by:
+         *                                 type: string
+         *                               is_deleted:
+         *                                 type: boolean
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
          *                           role_in_project:
          *                             type: string
-         *                             example: "Developer"
          *                           claim_name:
          *                             type: string
-         *                             example: "Request OT"
          *                           claim_start_date:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-11T08:48:36.083Z"
          *                           claim_end_date:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-13T08:48:36.083Z"
+         *                           total_work_time:
+         *                             type: number
+         *                           claim_status:
+         *                             type: string
          *                           is_deleted:
          *                             type: boolean
-         *                             example: false
          *                           created_at:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-22T02:54:05.055Z"
          *                           updated_at:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-22T02:54:05.055Z"
-         *                     pageInfo:
-         *                       type: object
-         *                       properties:
-         *                         pageNum:
-         *                           type: number
-         *                           example: 1
-         *                         pageSize:
-         *                           type: number
-         *                           example: 10
-         *                         totalItems:
-         *                           type: number
-         *                           example: 1
-         *                         totalPages:
-         *                           type: number
-         *                           example: 1
          */
         // POST domain:/api/claims/search -> Get items by conditions
         this.router.post(
@@ -317,60 +397,143 @@ export default class ClaimRoute implements IRoute {
          *                         properties:
          *                           _id:
          *                             type: string
-         *                             example: "67b93c4db74349d8a681d145"
          *                           staff_id:
          *                             type: string
-         *                             example: "67b43ca2f4d1e49e5326bb84"
          *                           staff_name:
          *                             type: string
-         *                             example: "tamoki1113"
          *                           staff_email:
          *                             type: string
-         *                             example: "tamo.ki1110@gmail.com"
          *                           staff_role:
          *                             type: string
          *                             nullable: true
-         *                             example: null
+         *                           employee_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               user_id:
+         *                                 type: string
+         *                               job_rank:
+         *                                 type: string
+         *                               contract_type:
+         *                                 type: string
+         *                               account:
+         *                                 type: string
+         *                               address:
+         *                                 type: string
+         *                               phone:
+         *                                 type: string
+         *                               full_name:
+         *                                 type: string
+         *                               avatar_url:
+         *                                 type: string
+         *                               department_name:
+         *                                 type: string
+         *                               salary:
+         *                                 type: number
+         *                               start_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               end_date:
+         *                                 type: string
+         *                                 nullable: true
+         *                               updated_by:
+         *                                 type: string
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               is_deleted:
+         *                                 type: boolean
+         *                           approval_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               email:
+         *                                 type: string
+         *                               user_name:
+         *                                 type: string
+         *                               role_code:
+         *                                 type: string
+         *                               is_verified:
+         *                                 type: boolean
+         *                               is_blocked:
+         *                                 type: boolean
+         *                               is_deleted:
+         *                                 type: boolean
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                           project_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               project_name:
+         *                                 type: string
+         *                               project_code:
+         *                                 type: string
+         *                               project_department:
+         *                                 type: string
+         *                               project_description:
+         *                                 type: string
+         *                               project_members:
+         *                                 type: array
+         *                                 items:
+         *                                   type: object
+         *                                   properties:
+         *                                     user_id:
+         *                                       type: string
+         *                                     project_role:
+         *                                       type: string
+         *                                     _id:
+         *                                       type: string
+         *                               project_status:
+         *                                 type: string
+         *                               project_start_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               project_end_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_by:
+         *                                 type: string
+         *                               is_deleted:
+         *                                 type: boolean
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
          *                           role_in_project:
          *                             type: string
-         *                             example: "Developer"
          *                           claim_name:
          *                             type: string
-         *                             example: "Request OT"
          *                           claim_start_date:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-11T08:48:36.083Z"
          *                           claim_end_date:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-13T08:48:36.083Z"
+         *                           total_work_time:
+         *                             type: number
+         *                           claim_status:
+         *                             type: string
          *                           is_deleted:
          *                             type: boolean
-         *                             example: false
          *                           created_at:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-22T02:54:05.055Z"
          *                           updated_at:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-22T02:54:05.055Z"
-         *                     pageInfo:
-         *                       type: object
-         *                       properties:
-         *                         pageNum:
-         *                           type: number
-         *                           example: 1
-         *                         pageSize:
-         *                           type: number
-         *                           example: 10
-         *                         totalItems:
-         *                           type: number
-         *                           example: 1
-         *                         totalPages:
-         *                           type: number
-         *                           example: 1
          */
         // POST domain:/api/claims/claimer-search -> Get items by conditions for claimer
         this.router.post(
@@ -443,65 +606,148 @@ export default class ClaimRoute implements IRoute {
          *                         properties:
          *                           _id:
          *                             type: string
-         *                             example: "67b93c4db74349d8a681d145"
          *                           staff_id:
          *                             type: string
-         *                             example: "67b43ca2f4d1e49e5326bb84"
          *                           staff_name:
          *                             type: string
-         *                             example: "tamoki1113"
          *                           staff_email:
          *                             type: string
-         *                             example: "tamo.ki1110@gmail.com"
          *                           staff_role:
          *                             type: string
          *                             nullable: true
-         *                             example: null
+         *                           employee_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               user_id:
+         *                                 type: string
+         *                               job_rank:
+         *                                 type: string
+         *                               contract_type:
+         *                                 type: string
+         *                               account:
+         *                                 type: string
+         *                               address:
+         *                                 type: string
+         *                               phone:
+         *                                 type: string
+         *                               full_name:
+         *                                 type: string
+         *                               avatar_url:
+         *                                 type: string
+         *                               department_name:
+         *                                 type: string
+         *                               salary:
+         *                                 type: number
+         *                               start_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               end_date:
+         *                                 type: string
+         *                                 nullable: true
+         *                               updated_by:
+         *                                 type: string
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               is_deleted:
+         *                                 type: boolean
+         *                           approval_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               email:
+         *                                 type: string
+         *                               user_name:
+         *                                 type: string
+         *                               role_code:
+         *                                 type: string
+         *                               is_verified:
+         *                                 type: boolean
+         *                               is_blocked:
+         *                                 type: boolean
+         *                               is_deleted:
+         *                                 type: boolean
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                           project_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               project_name:
+         *                                 type: string
+         *                               project_code:
+         *                                 type: string
+         *                               project_department:
+         *                                 type: string
+         *                               project_description:
+         *                                 type: string
+         *                               project_members:
+         *                                 type: array
+         *                                 items:
+         *                                   type: object
+         *                                   properties:
+         *                                     user_id:
+         *                                       type: string
+         *                                     project_role:
+         *                                       type: string
+         *                                     _id:
+         *                                       type: string
+         *                               project_status:
+         *                                 type: string
+         *                               project_start_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               project_end_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_by:
+         *                                 type: string
+         *                               is_deleted:
+         *                                 type: boolean
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
          *                           role_in_project:
          *                             type: string
-         *                             example: "Developer"
          *                           claim_name:
          *                             type: string
-         *                             example: "Request OT"
          *                           claim_start_date:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-11T08:48:36.083Z"
          *                           claim_end_date:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-13T08:48:36.083Z"
+         *                           total_work_time:
+         *                             type: number
+         *                           claim_status:
+         *                             type: string
          *                           is_deleted:
          *                             type: boolean
-         *                             example: false
          *                           created_at:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-22T02:54:05.055Z"
          *                           updated_at:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-22T02:54:05.055Z"
-         *                     pageInfo:
-         *                       type: object
-         *                       properties:
-         *                         pageNum:
-         *                           type: number
-         *                           example: 1
-         *                         pageSize:
-         *                           type: number
-         *                           example: 10
-         *                         totalItems:
-         *                           type: number
-         *                           example: 1
-         *                         totalPages:
-         *                           type: number
-         *                           example: 1
          */
         // POST domain:/api/claims/approval-search -> Get items by conditions for approval
         this.router.post(
             API_PATH.CLAIMS_APPROVAL_SEARCH,
-            authMiddleWare([BaseRoleCode.A003]),
+            authMiddleWare([BaseRoleCode.A001, BaseRoleCode.A003]),
             validationMiddleware(SearchPaginationClaimDto),
             this.claimController.getItemsForApproval,
         );
@@ -569,60 +815,143 @@ export default class ClaimRoute implements IRoute {
          *                         properties:
          *                           _id:
          *                             type: string
-         *                             example: "67b93c4db74349d8a681d145"
          *                           staff_id:
          *                             type: string
-         *                             example: "67b43ca2f4d1e49e5326bb84"
          *                           staff_name:
          *                             type: string
-         *                             example: "tamoki1113"
          *                           staff_email:
          *                             type: string
-         *                             example: "tamo.ki1110@gmail.com"
          *                           staff_role:
          *                             type: string
          *                             nullable: true
-         *                             example: null
+         *                           employee_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               user_id:
+         *                                 type: string
+         *                               job_rank:
+         *                                 type: string
+         *                               contract_type:
+         *                                 type: string
+         *                               account:
+         *                                 type: string
+         *                               address:
+         *                                 type: string
+         *                               phone:
+         *                                 type: string
+         *                               full_name:
+         *                                 type: string
+         *                               avatar_url:
+         *                                 type: string
+         *                               department_name:
+         *                                 type: string
+         *                               salary:
+         *                                 type: number
+         *                               start_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               end_date:
+         *                                 type: string
+         *                                 nullable: true
+         *                               updated_by:
+         *                                 type: string
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               is_deleted:
+         *                                 type: boolean
+         *                           approval_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               email:
+         *                                 type: string
+         *                               user_name:
+         *                                 type: string
+         *                               role_code:
+         *                                 type: string
+         *                               is_verified:
+         *                                 type: boolean
+         *                               is_blocked:
+         *                                 type: boolean
+         *                               is_deleted:
+         *                                 type: boolean
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                           project_info:
+         *                             type: object
+         *                             properties:
+         *                               _id:
+         *                                 type: string
+         *                               project_name:
+         *                                 type: string
+         *                               project_code:
+         *                                 type: string
+         *                               project_department:
+         *                                 type: string
+         *                               project_description:
+         *                                 type: string
+         *                               project_members:
+         *                                 type: array
+         *                                 items:
+         *                                   type: object
+         *                                   properties:
+         *                                     user_id:
+         *                                       type: string
+         *                                     project_role:
+         *                                       type: string
+         *                                     _id:
+         *                                       type: string
+         *                               project_status:
+         *                                 type: string
+         *                               project_start_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               project_end_date:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_by:
+         *                                 type: string
+         *                               is_deleted:
+         *                                 type: boolean
+         *                               created_at:
+         *                                 type: string
+         *                                 format: date-time
+         *                               updated_at:
+         *                                 type: string
+         *                                 format: date-time
          *                           role_in_project:
          *                             type: string
-         *                             example: "Developer"
          *                           claim_name:
          *                             type: string
-         *                             example: "Request OT"
          *                           claim_start_date:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-11T08:48:36.083Z"
          *                           claim_end_date:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-13T08:48:36.083Z"
+         *                           total_work_time:
+         *                             type: number
+         *                           claim_status:
+         *                             type: string
          *                           is_deleted:
          *                             type: boolean
-         *                             example: false
          *                           created_at:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-22T02:54:05.055Z"
          *                           updated_at:
          *                             type: string
          *                             format: date-time
-         *                             example: "2025-02-22T02:54:05.055Z"
-         *                     pageInfo:
-         *                       type: object
-         *                       properties:
-         *                         pageNum:
-         *                           type: number
-         *                           example: 1
-         *                         pageSize:
-         *                           type: number
-         *                           example: 10
-         *                         totalItems:
-         *                           type: number
-         *                           example: 1
-         *                         totalPages:
-         *                           type: number
-         *                           example: 1
          */
         // POST domain:/api/claims/finance-search -> Get items by conditions for finance
         this.router.post(

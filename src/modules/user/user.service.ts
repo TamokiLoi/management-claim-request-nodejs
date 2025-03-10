@@ -305,6 +305,8 @@ export default class UserService {
     public async update(userId: string, model: UpdateUserDto): Promise<IUser> {
         await checkEmptyObject(model);
 
+        const { user_name, email } = model;
+
         // check user exits
         const userExists = await this.getItem(userId);
 
@@ -315,12 +317,14 @@ export default class UserService {
 
         let errorResults: IError[] = [];
 
-        // check user_name exists
-        errorResults = await this.userRepository.checkFieldsExists(
-            [{ fieldName: 'user_name', fieldValue: model.user_name }],
-            errorResults,
-            'User',
-        );
+        if (user_name !== userExists.user_name) {
+            // check user_name exists
+            errorResults = await this.userRepository.checkFieldsExists(
+                [{ fieldName: 'user_name', fieldValue: model.user_name }],
+                errorResults,
+                'User',
+            );
+        }
 
         // check all fields valid
         if (errorResults.length) {

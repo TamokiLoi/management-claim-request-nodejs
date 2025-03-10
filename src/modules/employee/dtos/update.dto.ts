@@ -44,6 +44,7 @@ export default class UpdateEmployeeDto extends BaseDto {
     @IsString()
     public [EmployeeFieldName.START_DATE]: Date | string;
 
+    @IsNotEmpty()
     @IsString()
     public [EmployeeFieldName.END_DATE]: Date | string;
 

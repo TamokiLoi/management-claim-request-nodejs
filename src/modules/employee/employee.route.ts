@@ -113,7 +113,7 @@ export default class EmployeeRoute implements IRoute {
          * @swagger
          * /api/employees/{id}:
          *   put:
-         *     summary: Update employee
+         *     summary: Update employee by UserID
          *     tags: [Employee]
          *     parameters:
          *       - in: path
@@ -140,7 +140,6 @@ export default class EmployeeRoute implements IRoute {
          *               - salary
          *               - start_date
          *               - end_date
-         *               - updated_by
          *             properties:
          *               user_id:
          *                 type: string
@@ -169,7 +168,7 @@ export default class EmployeeRoute implements IRoute {
          *                 example: "https://picsum.photos/200/300"
          *               department_code:
          *                 type: string
-         *                 example: "CMS"
+         *                 example: "DE01"
          *               salary:
          *                 type: number
          *                 example: 5000000
@@ -181,9 +180,6 @@ export default class EmployeeRoute implements IRoute {
          *                 type: string
          *                 format: date-time
          *                 example: "2025-01-20T09:25:48.020Z"
-         *               updated_by:
-         *                 type: string
-         *                 example: "678e17134e6e72ce391d0946"
          *     responses:
          *       200:
          *         description: Employee updated successfully
@@ -228,7 +224,7 @@ export default class EmployeeRoute implements IRoute {
          *                       example: "https://picsum.photos/200/300"
          *                     department_code:
          *                       type: string
-         *                       example: "CMS"
+         *                       example: "DE01"
          *                     salary:
          *                       type: number
          *                       example: 5000000
