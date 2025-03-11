@@ -1048,10 +1048,10 @@ export default class ClaimRoute implements IRoute {
          *           schema:
          *             type: object
          *             required:
-         *               - claim_id
+         *               - _id
          *               - claim_status
          *             properties:
-         *               claim_id:
+         *               _id:
          *                 type: string
          *                 example: "67b93c4db74349d8a681d145"
          *               claim_status:
