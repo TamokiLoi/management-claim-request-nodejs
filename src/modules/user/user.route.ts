@@ -234,7 +234,7 @@ export default class UserRoute implements IRoute {
         // POST domain:/api/users/search -> Get items by conditions
         this.router.post(
             API_PATH.SEARCH_USERS,
-            authMiddleWare([BaseRoleCode.A001]),
+            authMiddleWare(),
             validationMiddleware(SearchPaginationUserDto),
             this.userController.getItems,
         );
@@ -310,7 +310,7 @@ export default class UserRoute implements IRoute {
          *                       example: 0
          */
         // GET domain:/api/users/:id -> Get user by id
-        this.router.get(`${this.path}/:id`, authMiddleWare([BaseRoleCode.A001]), this.userController.getItem);
+        this.router.get(`${this.path}/:id`, authMiddleWare(), this.userController.getItem);
 
         /**
          * @swagger
