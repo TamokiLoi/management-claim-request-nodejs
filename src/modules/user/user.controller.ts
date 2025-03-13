@@ -25,6 +25,16 @@ export default class UserController extends BaseController<
         this.userService = service;
     }
 
+    public createUser = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const model: CreateUserDto = req.body;
+            const item = await this.userService.create(model, req.user, req.get('Origin'));
+            res.status(HttpStatus.Success).json(formatResponse<IUser>(item));
+        } catch (error) {
+            next(error);
+        }
+    };
+
     public changePassword = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const model: ChangePasswordDto = req.body;

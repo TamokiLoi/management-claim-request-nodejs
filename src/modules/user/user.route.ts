@@ -115,7 +115,7 @@ export default class UserRoute implements IRoute {
             this.path,
             authMiddleWare(),
             validationMiddleware(CreateUserDto),
-            this.userController.create,
+            this.userController.createUser,
         );
 
         /**

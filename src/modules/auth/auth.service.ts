@@ -94,7 +94,7 @@ export default class AuthService {
         return true;
     }
 
-    public async resendTokenUser(email: string): Promise<boolean> {
+    public async resendTokenUser(email: string, originDomain?: string | undefined): Promise<boolean> {
         const user = await this.userSchema.findOne({ email }).exec();
         if (!user) {
             throw new HttpException(HttpStatus.BadRequest, `User with mail: ${email} is not exists.`);
@@ -113,7 +113,7 @@ export default class AuthService {
         user.verification_token = tokenData.verification_token;
         user.verification_token_expires = tokenData.verification_token_expires;
         user.updated_at = new Date();
-        const domain = process.env.DOMAIN_FE;
+        const domain = originDomain || process.env.DOMAIN_FE;
 
         // send mail with token
         const sendMailResult = await sendMail({

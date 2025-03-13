@@ -48,7 +48,7 @@ export default class AuthController {
 
     public resendToken = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            await this.authService.resendTokenUser(req.body.email);
+            await this.authService.resendTokenUser(req.body.email, req.get('Origin'));
             res.status(HttpStatus.Success).json(formatResponse<null>(null));
         } catch (error) {
             next(error);

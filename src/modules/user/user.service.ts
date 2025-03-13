@@ -34,7 +34,11 @@ export default class UserService {
         this.userRepository = new UserRepository();
     }
 
-    public async create(model: CreateUserDto, loggedUser: DataStoredInToken): Promise<IUser> {
+    public async create(
+        model: CreateUserDto,
+        loggedUser: DataStoredInToken,
+        originDomain?: string | undefined,
+    ): Promise<IUser> {
         await checkEmptyObject(model);
 
         let newUser = model;
@@ -111,7 +115,7 @@ export default class UserService {
                 let subject: string = 'Verify your email address';
                 let content: string = `Hello, ${newUser.user_name}.`;
 
-                const domain = process.env.DOMAIN_FE;
+                const domain = originDomain || process.env.DOMAIN_FE;
                 content = `${content}\nPlease click the following link to verify your email address:\n${domain}/verify-email/${tokenData.verification_token}`;
 
                 const sendMailResult = await sendMail({
