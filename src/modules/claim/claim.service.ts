@@ -97,8 +97,6 @@ export default class ClaimService {
         await this.validClaimDataStatus(data, loggedUser, claimInfo, userInfo);
 
         // TODO: check logic paid to balance for user
-        if (claim_status === ClaimStatusEnum.PAID) {
-        }
 
         // create claim_log
         const createClaimLogItem = await this.claimLogService.create(

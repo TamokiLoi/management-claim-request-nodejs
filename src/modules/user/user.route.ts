@@ -143,7 +143,7 @@ export default class UserRoute implements IRoute {
          *                   is_blocked:
          *                     type: boolean
          *                     example: false
-         *                   is_delete:
+         *                   is_deleted:
          *                     type: boolean
          *                     example: false
          *                   is_verified:

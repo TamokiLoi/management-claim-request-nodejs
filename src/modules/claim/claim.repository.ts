@@ -165,13 +165,14 @@ export class ClaimRepository extends BaseRepository<IClaim> {
     }
 
     public async findItemByRangeDate(data: CreateClaimDto | UpdateClaimDto): Promise<IClaim | null> {
-        const { user_id, claim_start_date, claim_end_date } = data;
+        const { user_id, project_id, claim_start_date, claim_end_date } = data;
 
         const claimStartDate = new Date(claim_start_date);
         const claimEndDate = new Date(claim_end_date);
 
         const query: Partial<Record<string, unknown>> = {
             [ClaimFieldName.USER_ID]: user_id,
+            [ClaimFieldName.PROJECT_ID]: project_id,
             [ClaimFieldName.CLAIM_STATUS]: { $ne: ClaimStatusEnum.CANCELED },
             [ClaimFieldName.CLAIM_START_DATE]: { $lt: claimEndDate },
             [ClaimFieldName.CLAIM_END_DATE]: { $gt: claimStartDate },
