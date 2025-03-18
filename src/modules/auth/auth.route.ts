@@ -269,8 +269,6 @@ export default class AuthRoute implements IRoute {
          * /api/auth/trigger-verify-token:
          *   post:
          *     summary: Trigger Verify user
-         *     security:
-         *      - Bearer: []
          *     tags: [Auth]
          *     requestBody:
          *       required: true

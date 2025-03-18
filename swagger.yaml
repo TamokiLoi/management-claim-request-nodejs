@@ -254,8 +254,6 @@ paths:
   /api/auth/trigger-verify-token:
     post:
       summary: Trigger Verify user
-      security:
-        - Bearer: []
       tags:
         - Auth
       requestBody:

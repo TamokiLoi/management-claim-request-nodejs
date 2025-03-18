@@ -49,6 +49,7 @@ export default class ClaimController extends BaseController<
         try {
             const model: SearchPaginationClaimDto = req.body;
             model.searchCondition.approval_id = req.user.id;
+            model.searchCondition.claim_status = ClaimStatusEnum.PENDING_APPROVAL;
             const result = await this.claimService.getItems(model);
             res.status(HttpStatus.Success).json(formatResponse<SearchPaginationResponseModel<IClaim>>(result));
         } catch (error) {

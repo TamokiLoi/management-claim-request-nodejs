@@ -20,6 +20,7 @@ import CreateUserDto from './dtos/createUser.dto';
 import SearchPaginationUserDto from './dtos/searchPaginationUser.dto';
 import SearchUserDto from './dtos/searchUser.dto';
 import UpdateUserDto from './dtos/updateUser.dto';
+import { USER_ADMIN_LIMIT_MAIL } from './user.constant';
 import { IUser } from './user.interface';
 import UserSchema from './user.model';
 import { UserRepository } from './user.repository';
@@ -261,6 +262,10 @@ export default class UserService {
         // check user exits
         const user = await this.getItem(userId);
 
+        if (USER_ADMIN_LIMIT_MAIL.includes(user.email)) {
+            throw new HttpException(HttpStatus.BadRequest, 'Cannot block admin account default of group!');
+        }
+
         // check change status
         if (user.is_blocked === model.is_blocked) {
             throw new HttpException(HttpStatus.BadRequest, `User status is already ${model.is_blocked}`);
@@ -352,7 +357,11 @@ export default class UserService {
 
     public async delete(userId: string): Promise<boolean> {
         // check item exists
-        await this.getItem(userId);
+        const item = await this.getItem(userId);
+
+        if (USER_ADMIN_LIMIT_MAIL.includes(item.email)) {
+            throw new HttpException(HttpStatus.BadRequest, 'Cannot delete admin account default of group!');
+        }
 
         const updateUserId = await this.userSchema.updateOne(
             { _id: userId },
