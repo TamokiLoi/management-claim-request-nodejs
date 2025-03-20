@@ -50,6 +50,7 @@ export class ClaimLogRepository extends BaseRepository<IClaimLog> {
                         _id: '$_id',
                         claim_name: { $first: '$claim_info.claim_name' },
                         updated_by: { $first: '$user_info.user_name' },
+                        updated_by_user_id: { $first: '$user_info._id' },
                         old_status: { $first: '$old_status' },
                         new_status: { $first: '$new_status' },
                         is_deleted: { $first: '$is_deleted' },
